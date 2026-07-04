@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f4ee">
 <title>Manipulation-Resistant Oracles via Continuous Peer Prediction</title>
 <meta name="description" content="CRPS peer prediction with a weighted least squares read-out makes decentralised carbon-MRV oracles strictly truthful, and identifies source manipulation if and only if the sensors are diverse. MARBLE 2026.">
 <link rel="canonical" href="https://junhaosong.com/crps-wls/">
@@ -27,6 +28,7 @@
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   font-family: var(--serif);
   font-size: 1.0625rem;
@@ -42,6 +44,7 @@ main { max-width: 46rem; margin: 0 auto; }
 ::selection { background: var(--hero); color: var(--paper); }
 a { color: var(--hero-d); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2.5px; }
 a:hover { color: var(--ochre); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--hero); outline-offset: 3px; border-radius: 2px; }
 
 /* ---------- masthead ---------- */
 .masthead { text-align: center; padding-bottom: 1.9rem; border-bottom: 3px double var(--rule); }
@@ -51,6 +54,7 @@ a:hover { color: var(--ochre); }
   font-size: .95rem;
   color: var(--ochre);
 }
+.venue span { white-space: nowrap; }
 h1 {
   font-size: clamp(1.85rem, 5.4vw, 2.9rem);
   line-height: 1.14;
@@ -61,14 +65,17 @@ h1 {
   text-wrap: balance;
 }
 .authors { font-size: 1.06rem; }
+.authors span { white-space: nowrap; }
 .authors a { color: inherit; text-decoration: none; border-bottom: 1px dotted transparent; }
 .authors a:hover { border-bottom-color: var(--ochre); color: var(--ochre); }
 .authors sup { font-size: .68em; color: var(--muted); margin-left: .08em; }
-.affil { font-size: .875rem; color: var(--muted); margin-top: .45rem; max-width: 36em; margin-left: auto; margin-right: auto; }
+.affil { font-size: .875rem; color: var(--muted); margin-top: .6rem; line-height: 1.75; }
+.affil span { display: block; }
+.affil sup { color: var(--ochre); margin-right: .2em; }
 .links { margin-top: 1.35rem; display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
 .btn {
   font-size: .92rem;
-  padding: .42em 1.25em;
+  padding: .52em 1.3em;
   border: 1px solid rgba(32,29,25,.4);
   border-radius: 999px;
   text-decoration: none;
@@ -107,13 +114,15 @@ h2::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
 
 /* ---------- figure plates ---------- */
 .plate {
+  display: flex;
+  flex-direction: column;
   background: var(--plate);
   border: 1px solid var(--rule);
   border-radius: 4px;
   padding: clamp(.7rem, 2vw, 1.15rem);
   box-shadow: 0 1px 2px rgba(32,29,25,.05), 0 14px 34px -18px rgba(32,29,25,.18);
 }
-.plate img { display: block; width: 100%; height: auto; }
+.plate img { display: block; width: 100%; height: auto; margin-block: auto; }
 .plate figcaption {
   font-size: .84rem; color: var(--muted); line-height: 1.5;
   padding: .75rem .2rem .1rem;
@@ -176,10 +185,11 @@ var { font-style: italic; font-family: inherit; }
 
 /* ---------- bibtex ---------- */
 .bib { position: relative; }
+#bibtex { scroll-margin-top: 1.6rem; }
 .bib pre {
-  font-family: var(--mono); font-size: .8rem; line-height: 1.55;
+  font-family: var(--mono); font-size: .82rem; line-height: 1.55;
   background: #26221c; color: #e9e2d2;
-  padding: 1.15rem 1.3rem; border-radius: 4px;
+  padding: 1.15rem 4.6rem 1.15rem 1.3rem; border-radius: 4px;
   overflow-x: auto;
 }
 .bib button {
@@ -187,7 +197,7 @@ var { font-style: italic; font-family: inherit; }
   font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
   color: #e9e2d2; background: rgba(233,226,210,.08);
   border: 1px solid rgba(233,226,210,.35); border-radius: 999px;
-  padding: .3em 1em; cursor: pointer;
+  padding: .45em 1.1em; cursor: pointer;
   transition: background .18s ease, color .18s ease;
 }
 .bib button:hover { background: #e9e2d2; color: #26221c; }
@@ -198,25 +208,34 @@ footer {
   border-top: 1px solid var(--rule);
   font-size: .85rem; color: var(--muted); text-align: center; line-height: 1.7;
 }
+
+@media print {
+  body { background: #fff; padding: 0; }
+  .links, .bib button { display: none; }
+  .plate { box-shadow: none; }
+  .bib pre { background: #fff; color: var(--ink); border: 1px solid var(--rule); }
+}
 </style>
 </head>
 <body>
 <main>
 
 <header class="masthead">
-  <p class="venue">MARBLE 2026 &middot; Mathematical Research for Blockchain Economy &middot; Springer, to appear</p>
+  <p class="venue"><span>MARBLE 2026</span> &middot; <span>Mathematical Research for Blockchain Economy</span> &middot; <span>Springer, to appear</span></p>
   <h1>Manipulation&#8209;Resistant Oracles via Continuous Peer Prediction</h1>
   <p class="authors">
-    <a href="https://orcid.org/0009-0009-5178-0258">Junhao Song</a><sup>1</sup> &middot;
-    <a href="https://orcid.org/0009-0006-0055-4267">Tanis Rolandi</a><sup>2</sup> &middot;
-    <a href="https://orcid.org/0009-0007-5015-244X">Adam Novocky</a><sup>1</sup> &middot;
-    <a href="https://orcid.org/0000-0001-5984-0942">Enrico Biffis</a><sup>3,4</sup> &middot;
-    <a href="https://orcid.org/0000-0002-8490-1011">William Knottenbelt</a><sup>1</sup>
+    <span><a href="https://orcid.org/0009-0009-5178-0258">Junhao Song</a><sup>1</sup></span> &middot;
+    <span><a href="https://orcid.org/0009-0006-0055-4267">Tanis Rolandi</a><sup>2</sup></span> &middot;
+    <span><a href="https://orcid.org/0009-0007-5015-244X">Adam Novocky</a><sup>1</sup></span> &middot;
+    <span><a href="https://orcid.org/0000-0001-5984-0942">Enrico Biffis</a><sup>3,4</sup></span> &middot;
+    <span><a href="https://orcid.org/0000-0002-8490-1011">William Knottenbelt</a><sup>1</sup></span>
   </p>
-  <p class="affil"><sup>1</sup>Department of Computing, Imperial College London &nbsp;&middot;&nbsp;
-     <sup>2</sup>European R&amp;D Centre, Hitachi Europe &nbsp;&middot;&nbsp;
-     <sup>3</sup>Imperial College Business School &nbsp;&middot;&nbsp;
-     <sup>4</sup>Centre for Climate Finance and Investment</p>
+  <p class="affil">
+    <span><sup>1</sup>Department of Computing, Imperial College London</span>
+    <span><sup>2</sup>European R&amp;D Centre, Hitachi Europe</span>
+    <span><sup>3</sup>Imperial College Business School</span>
+    <span><sup>4</sup>Centre for Climate Finance and Investment</span>
+  </p>
   <nav class="links">
     <!-- Swap for the Springer DOI once assigned -->
     <span class="btn btn-soon">Paper &middot; <small>to appear</small></span>
@@ -276,20 +295,20 @@ footer {
 <section>
   <h2>Findings</h2>
   <figure class="plate">
-    <img src="assets/fig12.png" alt="Signed over-credit versus manipulation: baselines rise up to +57 percent, the WLS read-out stays at zero.">
+    <img src="assets/fig12.png" width="706" height="577" alt="Signed over-credit versus manipulation: baselines rise up to +57 percent, the WLS read-out stays at zero.">
     <figcaption><b>Fig.&nbsp;12.</b> The policy-relevant failure. Under source manipulation, the
     aggregation rules of deployed systems credit up to 57% more carbon than is there; the WLS
     read-out stays at zero over-credit at every manipulation level.</figcaption>
   </figure>
   <div class="duo">
     <figure class="plate">
-      <img src="assets/fig4.png" alt="Log-log plot: estimation error grows as one over the sensitivity spread as diversity vanishes.">
+      <img src="assets/fig4.png" width="700" height="544" alt="Log-log plot: estimation error grows as one over the sensitivity spread as diversity vanishes.">
       <figcaption><b>Fig.&nbsp;4.</b> The impossibility direction, measured. As sensor sensitivities
       collapse to a common value, estimation error grows as 1/spread, exactly the boundary the
       theorem predicts.</figcaption>
     </figure>
     <figure class="plate">
-      <img src="assets/fig13.png" alt="Bias of each aggregator when trained models predict from real perturbed spectra; baselines drift, WLS stays in a narrow band.">
+      <img src="assets/fig13.png" width="701" height="540" alt="Bias of each aggregator when trained models predict from real perturbed spectra; baselines drift, WLS stays in a narrow band.">
       <figcaption><b>Fig.&nbsp;13.</b> Real models, real perturbation. Eight trained SOC models
       predict from spectra under a physical wetting perturbation: baselines drift with the
       perturbation, the mechanism stays within the sensors' own calibration band.</figcaption>
@@ -318,7 +337,7 @@ footer {
 <section id="bibtex">
   <h2>Citation</h2>
   <div class="bib">
-    <button type="button" onclick="copyBib(this)">Copy</button>
+    <button type="button" onclick="copyBib(this)" aria-label="Copy BibTeX to clipboard">Copy</button>
     <pre id="bibsrc">@inproceedings{song2026manipulation,
   author    = {Song, Junhao and Rolandi, Tanis and Novocky, Adam and
                Biffis, Enrico and Knottenbelt, William},
