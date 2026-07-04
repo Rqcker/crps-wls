@@ -1,7 +1,7 @@
 # Manipulation-Resistant Oracles via Continuous Peer Prediction
 
 Code and experiments for *Manipulation-Resistant Oracles via Continuous Peer
-Prediction*, to appear at MARBLE 2026 (Springer).
+Prediction* (under review, 2026).
 
 **[Project page](https://rqcker.github.io/crps-wls)**
 
@@ -122,13 +122,12 @@ The scripts expect `SCRATCH` to point at a large scratch directory; see
 ## Citation
 
 ```bibtex
-@inproceedings{song2026manipulation,
-  author    = {Song, Junhao and Rolandi, Tanis and Novocky, Adam and
-               Biffis, Enrico and Knottenbelt, William},
-  title     = {Manipulation-Resistant Oracles via Continuous Peer Prediction},
-  booktitle = {Mathematical Research for Blockchain Economy (MARBLE 2026)},
-  publisher = {Springer},
-  year      = {2026}
+@misc{song2026manipulation,
+  author = {Song, Junhao and Rolandi, Tanis and Novocky, Adam and
+            Biffis, Enrico and Knottenbelt, William},
+  title  = {Manipulation-Resistant Oracles via Continuous Peer Prediction},
+  year   = {2026},
+  note   = {Under review}
 }
 ```
 
