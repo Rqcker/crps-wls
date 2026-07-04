@@ -1,0 +1,36 @@
+{
+  "note": "Per-model systematic bias E[(pred-oc)/oc] on CLEAN test spectra (w=0) from the real-manipulation experiment. This is the source of the paper's statement in Section 5 that the trained models over-predict clean-spectra OC by 7% to 27%, with one under-predicting by 5%. Recovered from the original cluster stdout (not saved to real_manipulation.csv, which stores only the aggregate biases).",
+  "provenance": {
+    "slurm_job": "247148",
+    "node": "hopper.doc.ic.ac.uk",
+    "gpu": "NVIDIA A30",
+    "date": "2026-06-04",
+    "log": "slurm_logs/real_247148.out",
+    "script": "src/real_manipulation.py",
+    "split": "80/20, train 29824 / test 7456, seed 42, LUCAS mineral OC<=100 (37280)"
+  },
+  "clean_bias_pct": {
+    "Linear": 22.1,
+    "RF": 20.1,
+    "CNN": 13.7,
+    "ViT": 7.4,
+    "SSL-SoilNet": 27.0,
+    "CNN-LSTM-ECA": 27.4,
+    "Spectral-Swin": 7.4,
+    "1DCNN-SAE": -5.3
+  },
+  "rmse_gkg": {
+    "Linear": 15.08,
+    "RF": 13.47,
+    "CNN": 12.59,
+    "ViT": 13.83,
+    "SSL-SoilNet": 12.99,
+    "CNN-LSTM-ECA": 18.02,
+    "Spectral-Swin": 13.99,
+    "1DCNN-SAE": 16.50
+  },
+  "range_pct": [-5.3, 27.4],
+  "n_over_predict": 7,
+  "n_under_predict": 1,
+  "matches_paper": "Section 5: '+7% to +27% (one under-predicts by 5%)' -- exact."
+}
