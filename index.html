@@ -189,12 +189,12 @@ var { font-style: italic; font-family: inherit; }
 }
 .spectra {
   position: absolute; left: 50%; bottom: 0; transform: translateX(-50%);
-  width: min(1400px, 200vw); height: 62%;
-  min-height: 180px; max-height: 340px;
+  width: min(1400px, 200vw); height: 46%;
+  min-height: 150px; max-height: 280px;
   pointer-events: none;
-  opacity: .55;
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.35) 55%, transparent 92%);
-  mask-image: linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.35) 55%, transparent 92%);
+  opacity: .34;
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.22) 42%, transparent 68%);
+  mask-image: linear-gradient(to top, rgba(0,0,0,.85), rgba(0,0,0,.22) 42%, transparent 68%);
 }
 .spectra path { stroke: var(--accent-2); fill: none; stroke-width: 1; }
 :root:not([data-theme="light"]) .spectra path { stroke: #9db8e2; }
@@ -337,16 +337,22 @@ section > .eyebrow { display: block; margin-bottom: .55rem; }
 .abstract { color: var(--ink-2); }
 .abstract b { color: var(--ink); font-weight: 600; }
 
-.callout {
-  margin-top: 1.4rem;
-  background: var(--tint);
-  border: 1px solid var(--hairline-2);
-  border-radius: var(--radius);
-  padding: 1.35rem 1.5rem 1.45rem;
+.theorem {
+  margin-top: 1.9rem;
+  border-left: 3px solid var(--accent);
+  padding: .15rem 0 .1rem 1.5rem;
 }
-.callout .eyebrow { color: var(--accent); margin-bottom: .45rem; }
-.callout p { color: var(--ink-2); }
-.callout b { color: var(--ink); font-weight: 600; }
+.thm-head {
+  font-family: var(--mono);
+  font-size: .7rem; font-weight: 500;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .55rem;
+}
+.thm-body { color: var(--ink-2); }
+.thm-body b { color: var(--ink); font-weight: 600; }
+.thm-link { margin-top: .6rem; font-size: .82rem; }
+.thm-link a { font-family: var(--mono); font-size: .72rem; letter-spacing: .06em; }
 
 .steps { list-style: none; counter-reset: step; }
 .steps li { counter-increment: step; position: relative; padding-left: 3.2rem; color: var(--ink-2); }
@@ -660,13 +666,18 @@ dialog.lb p {
   carries the sensor's calibration error, so the guarantee is manipulation invariance rather than
   absolute accuracy.</p>
 
-  <div class="callout reveal">
-    <p class="eyebrow">Main result</p>
-    <p>Strict truthfulness for the sensors <b>and</b> the source is achievable <b>if and only if</b>
-    the sensor sensitivities <var>&alpha;<sub>i</sub></var> are not all equal. When every sensor
-    responds identically, a uniform shift of the reports is indistinguishable from a genuine change
-    in SOC, and CRPS translation equivariance leaves every peer score unchanged: no report-based
-    mechanism can deter the source, whatever its scoring or penalty.</p>
+  <div class="theorem reveal">
+    <p class="thm-head">Theorem &middot; Source deterrence if and only if sensor diversity</p>
+    <p class="thm-body">In the flat-prior Gaussian reporting model, CRPS peer scoring makes
+    truthful reporting a strict best response at the honest-source equilibrium. Fix truthful
+    reports by non-colluding reporters. A penalty <var>P</var> then exists for which
+    <var>s</var>&nbsp;=&nbsp;0 is a strict source best response <b>if and only if</b> the sensor
+    sensitivities <var>&alpha;<sub>i</sub></var> are not all equal. When they are all equal, a
+    manipulation at <var>&theta;<sub>0</sub></var> and an honest source at the higher value
+    <var>&theta;<sub>0</sub>&nbsp;+&nbsp;&#x1FB1;s</var> induce exactly
+    the same report law, so no admissible settlement rule can tell them apart, whatever its
+    scoring or penalty.</p>
+    <p class="thm-link"><a href="#condition">Drag the boundary yourself &darr;</a></p>
   </div>
 </section>
 
@@ -674,7 +685,7 @@ dialog.lb p {
   <span class="eyebrow reveal">Interactive</span>
   <h2 class="reveal">The diversity condition, in one drag</h2>
   <p class="lede reveal" style="color: var(--ink-2); max-width: 38rem;">Three sensors report Gaussian
-  beliefs about one parcel. Drag the manipulation and watch what the reports reveal. With identical
+  beliefs about one parcel, each with its own precision. Drag the manipulation and watch what the reports reveal. With identical
   sensitivities, every mean shifts by the same amount, so the shift is indistinguishable from a
   genuine rise in SOC. With diverse sensitivities, the design matrix [<b>1</b>&nbsp;|&nbsp;<var>&alpha;</var>]
   separates the two, and the manipulation is recovered exactly.</p>
@@ -695,8 +706,8 @@ dialog.lb p {
         <text x="560" y="298" text-anchor="middle">60</text>
         <text x="688" y="298" text-anchor="end">g/kg SOC</text>
         <path id="p1" class="curve" stroke="#4C72B0" d="M0.0,286.0 L11.7,286.0 L23.3,286.0 L35.0,286.0 L46.7,286.0 L58.3,286.0 L70.0,286.0 L81.7,286.0 L93.3,285.9 L105.0,285.7 L116.7,285.4 L128.3,284.6 L140.0,283.2 L151.7,280.5 L163.3,275.9 L175.0,268.5 L186.7,257.2 L198.3,241.1 L210.0,219.7 L221.7,193.4 L233.3,163.5 L245.0,132.5 L256.7,103.9 L268.3,81.3 L280.0,68.2 L291.7,66.5 L303.3,76.5 L315.0,96.6 L326.7,123.9 L338.3,154.6 L350.0,185.1 L361.7,212.7 L373.3,235.5 L385.0,253.1 L396.7,265.7 L408.3,274.1 L420.0,279.4 L431.7,282.6 L443.3,284.3 L455.0,285.2 L466.7,285.6 L478.3,285.8 L490.0,285.9 L501.7,286.0 L513.3,286.0 L525.0,286.0 L536.7,286.0 L548.3,286.0 L560.0,286.0 L571.7,286.0 L583.3,286.0 L595.0,286.0 L606.7,286.0 L618.3,286.0 L630.0,286.0 L641.7,286.0 L653.3,286.0 L665.0,286.0 L676.7,286.0 L688.3,286.0 L700.0,286.0"/>
-        <path id="p2" class="curve" stroke="#8a5a2b" d="M0.0,286.0 L11.7,286.0 L23.3,285.9 L35.0,285.9 L46.7,285.8 L58.3,285.7 L70.0,285.4 L81.7,284.9 L93.3,284.2 L105.0,283.1 L116.7,281.3 L128.3,278.7 L140.0,275.1 L151.7,270.1 L163.3,263.4 L175.0,254.8 L186.7,244.2 L198.3,231.6 L210.0,217.2 L221.7,201.4 L233.3,185.0 L245.0,168.8 L256.7,153.9 L268.3,141.3 L280.0,132.0 L291.7,126.8 L303.3,126.1 L315.0,129.9 L326.7,137.9 L338.3,149.6 L350.0,163.8 L361.7,179.7 L373.3,196.2 L385.0,212.2 L396.7,227.1 L408.3,240.4 L420.0,251.6 L431.7,260.8 L443.3,268.1 L455.0,273.6 L466.7,277.7 L478.3,280.6 L490.0,282.6 L501.7,283.9 L513.3,284.7 L525.0,285.3 L536.7,285.6 L548.3,285.8 L560.0,285.9 L571.7,285.9 L583.3,286.0 L595.0,286.0 L606.7,286.0 L618.3,286.0 L630.0,286.0 L641.7,286.0 L653.3,286.0 L665.0,286.0 L676.7,286.0 L688.3,286.0 L700.0,286.0"/>
-        <path id="p3" class="curve" stroke="#98a0ad" d="M0.0,286.0 L11.7,286.0 L23.3,286.0 L35.0,286.0 L46.7,286.0 L58.3,286.0 L70.0,286.0 L81.7,286.0 L93.3,286.0 L105.0,285.9 L116.7,285.7 L128.3,285.1 L140.0,283.9 L151.7,281.5 L163.3,276.7 L175.0,268.1 L186.7,254.1 L198.3,233.1 L210.0,204.3 L221.7,168.3 L233.3,128.2 L245.0,89.0 L256.7,56.8 L268.3,37.7 L280.0,35.5 L291.7,50.6 L303.3,80.0 L315.0,118.1 L326.7,158.5 L338.3,195.9 L350.0,226.6 L361.7,249.6 L373.3,265.2 L385.0,274.9 L396.7,280.5 L408.3,283.5 L420.0,284.9 L431.7,285.6 L443.3,285.8 L455.0,285.9 L466.7,286.0 L478.3,286.0 L490.0,286.0 L501.7,286.0 L513.3,286.0 L525.0,286.0 L536.7,286.0 L548.3,286.0 L560.0,286.0 L571.7,286.0 L583.3,286.0 L595.0,286.0 L606.7,286.0 L618.3,286.0 L630.0,286.0 L641.7,286.0 L653.3,286.0 L665.0,286.0 L676.7,286.0 L688.3,286.0 L700.0,286.0"/>
+        <path id="p2" class="curve" stroke="#8a5a2b" d="M0.0,285.9 L11.7,285.9 L23.3,285.8 L35.0,285.6 L46.7,285.3 L58.3,284.9 L70.0,284.1 L81.7,282.8 L93.3,281.0 L105.0,278.3 L116.7,274.5 L128.3,269.2 L140.0,262.3 L151.7,253.4 L163.3,242.5 L175.0,229.6 L186.7,215.0 L198.3,199.1 L210.0,182.7 L221.7,166.6 L233.3,151.9 L245.0,139.8 L256.7,131.0 L268.3,126.4 L280.0,126.3 L291.7,130.8 L303.3,139.4 L315.0,151.5 L326.7,166.0 L338.3,182.1 L350.0,198.5 L361.7,214.4 L373.3,229.1 L385.0,242.1 L396.7,253.1 L408.3,262.0 L420.0,269.0 L431.7,274.3 L443.3,278.2 L455.0,280.9 L466.7,282.8 L478.3,284.0 L490.0,284.8 L501.7,285.3 L513.3,285.6 L525.0,285.8 L536.7,285.9 L548.3,285.9 L560.0,286.0 L571.7,286.0 L583.3,286.0 L595.0,286.0 L606.7,286.0 L618.3,286.0 L630.0,286.0 L641.7,286.0 L653.3,286.0 L665.0,286.0 L676.7,286.0 L688.3,286.0 L700.0,286.0"/>
+        <path id="p3" class="curve" stroke="#98a0ad" d="M0.0,286.0 L11.7,286.0 L23.3,286.0 L35.0,286.0 L46.7,286.0 L58.3,286.0 L70.0,286.0 L81.7,286.0 L93.3,286.0 L105.0,286.0 L116.7,286.0 L128.3,285.9 L140.0,285.7 L151.7,285.2 L163.3,284.2 L175.0,281.9 L186.7,277.5 L198.3,269.6 L210.0,256.5 L221.7,236.6 L233.3,208.9 L245.0,173.8 L256.7,134.0 L268.3,94.3 L280.0,60.7 L291.7,39.5 L303.3,34.7 L315.0,47.5 L326.7,75.1 L338.3,112.4 L350.0,152.8 L361.7,190.9 L373.3,222.7 L385.0,246.8 L396.7,263.4 L408.3,273.8 L420.0,279.9 L431.7,283.2 L443.3,284.8 L455.0,285.5 L466.7,285.8 L478.3,285.9 L490.0,286.0 L501.7,286.0 L513.3,286.0 L525.0,286.0 L536.7,286.0 L548.3,286.0 L560.0,286.0 L571.7,286.0 L583.3,286.0 L595.0,286.0 L606.7,286.0 L618.3,286.0 L630.0,286.0 L641.7,286.0 L653.3,286.0 L665.0,286.0 L676.7,286.0 L688.3,286.0 L700.0,286.0"/>
       </svg>
       <div class="readout">
         <span class="eyebrow">WLS read-out</span>
@@ -719,7 +730,7 @@ dialog.lb p {
         <span class="sval" id="sval">3.0 g/kg</span>
       </div>
     </div>
-    <figcaption><b>Thm.&nbsp;2.</b> Theorem 2 in the noiseless limit. The sensitivities
+    <figcaption><b>The theorem.</b> The main theorem, shown in the noiseless limit. The sensitivities
     <var>&alpha;<sub>i</sub></var> decide whether the reports contain any evidence of the
     manipulation at all.</figcaption>
   </figure>
@@ -897,10 +908,11 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
      alpha identical -> [1|alpha] singular, s not identifiable.
      alpha diverse   -> WLS recovers s exactly (noiseless limit).     */
   var W = 700, H = 300, XMIN = 12, XMAX = 68, YMAX = 0.115;
+  var THETA = 32;  /* the one true SOC value every sensor measures */
   var sensors = [
-    { el: 'p1', r: 'r1', m0: 32, sd: 4.0, a: 1.00 },
-    { el: 'p2', r: 'r2', m0: 34, sd: 5.5, a: 0.65 },
-    { el: 'p3', r: 'r3', m0: 30, sd: 3.5, a: 1.35 }
+    { el: 'p1', r: 'r1', sd: 4.0, a: 1.00 },
+    { el: 'p2', r: 'r2', sd: 5.5, a: 0.65 },
+    { el: 'p3', r: 'r3', sd: 3.5, a: 1.35 }
   ];
   var paths = sensors.map(function (s) { return document.getElementById(s.el); });
   var rows   = sensors.map(function (s) { return document.getElementById(s.r); });
@@ -929,7 +941,7 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
     slider.style.setProperty('--fill', (s / 10 * 100) + '%');
     sensors.forEach(function (sensor, i) {
       var a = (mode === 'identical') ? 1 : sensor.a;
-      paths[i].setAttribute('d', gaussPath(sensor.m0 + a * s, sensor.sd));
+      paths[i].setAttribute('d', gaussPath(THETA + a * s, sensor.sd));
       var dm = a * s;
       rows[i].textContent = (dm >= 0 ? '+' : '') + dm.toFixed(2);
     });
