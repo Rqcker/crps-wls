@@ -1,0 +1,60 @@
+cff-version: 1.2.0
+title: Manipulation-Resistant Oracles via Continuous Peer Prediction
+message: If you use this software or the mechanism it implements, please cite the paper below.
+type: software
+license: MIT
+repository-code: https://github.com/Rqcker/crps-wls
+url: https://junhaosong.com/crps-wls/
+authors:
+  - family-names: Song
+    given-names: Junhao
+    orcid: https://orcid.org/0009-0009-5178-0258
+  - family-names: Rolandi
+    given-names: Tanis
+    orcid: https://orcid.org/0009-0006-0055-4267
+  - family-names: Novocky
+    given-names: Adam
+    orcid: https://orcid.org/0009-0007-5015-244X
+  - family-names: Biffis
+    given-names: Enrico
+    orcid: https://orcid.org/0000-0001-5984-0942
+  - family-names: Knottenbelt
+    given-names: William
+    orcid: https://orcid.org/0000-0002-8490-1011
+keywords:
+  - peer prediction
+  - continuous ranked probability score
+  - blockchain oracle
+  - decentralised physical infrastructure network
+  - carbon measurement reporting and verification
+  - soil organic carbon
+preferred-citation:
+  type: conference-paper
+  title: Manipulation-Resistant Oracles via Continuous Peer Prediction
+  year: 2026
+  collection-title: Mathematical Research for Blockchain Economy (MARBLE 2026)
+  publisher:
+    name: Springer
+  conference:
+    name: 7th International Conference on Mathematical Research for Blockchain Economy
+    city: Limassol
+    country: CY
+    date-start: 2026-09-16
+    date-end: 2026-09-18
+  notes: To appear. DOI and page numbers will be added once the proceedings are published.
+  authors:
+    - family-names: Song
+      given-names: Junhao
+      orcid: https://orcid.org/0009-0009-5178-0258
+    - family-names: Rolandi
+      given-names: Tanis
+      orcid: https://orcid.org/0009-0006-0055-4267
+    - family-names: Novocky
+      given-names: Adam
+      orcid: https://orcid.org/0009-0007-5015-244X
+    - family-names: Biffis
+      given-names: Enrico
+      orcid: https://orcid.org/0000-0001-5984-0942
+    - family-names: Knottenbelt
+      given-names: William
+      orcid: https://orcid.org/0000-0002-8490-1011
