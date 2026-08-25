@@ -608,6 +608,27 @@ svg.plot .bb-cross { stroke: #6e6e73; opacity: .4; stroke-width: 1; }
 @media (max-width: 44rem) { .use-grid.wide { margin-left: 0; } }
 @media (max-width: 34rem) { .use-grid { grid-template-columns: 1fr; } .use-grid.wide { margin-left: 0; } .use-card { min-height: 0; } }
 
+@media (min-width: 44.01rem) {
+  #beyond figure .controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.15rem;
+  }
+  #beyond figure .sliderbox {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .25rem .75rem;
+    align-items: center;
+  }
+  #beyond figure .sliderbox label { grid-column: 1; grid-row: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  #beyond figure .sliderbox .sval { grid-column: 2; grid-row: 1; }
+  #beyond figure .sliderbox input[type="range"] { grid-column: 1 / -1; grid-row: 2; width: 100%; min-width: 0; }
+}
+@media (min-width: 58rem) {
+  #beyond figure .controls { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 .conds { margin: 1.6rem 0 0; }
 .conds > div {
   display: grid; grid-template-columns: 11.5rem 1fr; gap: 1.1rem;
