@@ -6,11 +6,11 @@
 <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Manipulation-Resistant Oracles via Continuous Peer Prediction</title>
-<meta name="description" content="CRPS peer prediction with a weighted least squares read-out makes decentralised carbon-MRV oracles strictly truthful, and identifies source manipulation if and only if the sensors are diverse. Conditionally accepted at MARBLE 2026.">
+<meta name="description" content="CRPS peer prediction with a weighted least squares read-out makes decentralised carbon-MRV oracles strictly truthful, and identifies source manipulation if and only if the sensors are diverse. Accepted at MARBLE 2026.">
 <link rel="canonical" href="https://junhaosong.com/crps-wls/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Manipulation-Resistant Oracles via Continuous Peer Prediction">
-<meta property="og:description" content="An if-and-only-if characterisation of manipulation-resistant oracle mechanisms for continuous reports, validated with eight SOC models on 37,280 real soil spectra. Conditionally accepted at MARBLE 2026.">
+<meta property="og:description" content="An if-and-only-if characterisation of manipulation-resistant oracle mechanisms for continuous reports, validated with eight SOC models on 37,280 real soil spectra. Accepted at MARBLE 2026.">
 <meta property="og:url" content="https://junhaosong.com/crps-wls/">
 <meta property="og:image" content="https://junhaosong.com/crps-wls/assets/teaser.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -98,7 +98,7 @@
    base
    ============================================================ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; overflow-x: clip; }
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   font-family: var(--sans);
@@ -106,6 +106,7 @@ body {
   line-height: 1.62;
   color: var(--ink);
   background: var(--bg);
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   transition: background-color .5s var(--ease-out), color .5s var(--ease-out);
@@ -147,14 +148,16 @@ var { font-style: italic; font-family: inherit; }
 }
 @media (max-width: 26rem) {
   .chrome-in { padding: 0 .9rem; gap: .1rem; }
-  .chrome a.nav-link { padding: .3rem .38rem; font-size: .78rem; }
+      .chrome a.nav-link { padding: .3rem .38rem; font-size: .78rem; }
 }
 .wordmark {
   font-family: var(--mono); font-size: .78rem; font-weight: 500;
   letter-spacing: .06em; color: var(--ink); margin-right: auto; white-space: nowrap;
+  flex-shrink: 0;
 }
 .wordmark:hover { text-decoration: none; opacity: .62; }
 .chrome a.nav-link {
+  flex-shrink: 0;
   font-size: .82rem; color: var(--ink-2);
   padding: .3rem .5rem; border-radius: 8px;
   transition: color .2s ease, background-color .2s ease, transform .16s var(--ease-out);
@@ -162,7 +165,8 @@ var { font-style: italic; font-family: inherit; }
 .chrome a.nav-link:hover { text-decoration: none; color: var(--ink); background: var(--hairline-2); }
 .chrome a.nav-link:active { transform: scale(.97); }
 .theme-toggle {
-  width: 30px; height: 30px; margin-left: .2rem;
+  flex: 0 0 auto;
+  width: 36px; height: 36px; margin-left: .2rem;
   display: grid; place-items: center;
   border: 1px solid var(--hairline); border-radius: 999px;
   background: transparent; color: var(--ink-2); cursor: pointer;
@@ -194,7 +198,6 @@ var { font-style: italic; font-family: inherit; }
 }
 .spectra-band svg { width: 100%; height: 100%; display: block; opacity: .4; }
 .spectra-band path { stroke: var(--accent-2); fill: none; stroke-width: 1; }
-:root:not([data-theme="light"]) .spectra-band path { stroke: #9db8e2; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .spectra-band path { stroke: #9db8e2; }
 }
@@ -209,6 +212,14 @@ var { font-style: italic; font-family: inherit; }
   white-space: nowrap;
 }
 @media (max-width: 44rem) { .spectra-band { height: 80px; margin-top: 2rem; } }
+
+@media (max-width: 44rem) {
+  .hero { padding-top: 2.5rem; }
+  .venue { padding: .32rem .78rem; line-height: 1.45; }
+  .affil { line-height: 1.55; margin-top: .65rem; }
+  .links { margin-top: 1.55rem; }
+  .btn { padding: .55em 1.12em; }
+}
 
 .venue {
   position: relative; z-index: 1;
@@ -298,6 +309,17 @@ figcaption b {
 .hero-plate figcaption { max-width: 40rem; margin: 0 auto; }
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-top: 1.15rem; }
 @media (max-width: 44rem) { .duo { grid-template-columns: 1fr; } }
+.wide {
+  width: min(61rem, calc(100vw - 2.8rem));
+  margin-left: calc((100% - min(61rem, calc(100vw - 2.8rem))) / 2);
+}
+.plate.wide { padding: clamp(1rem, 2.1vw, 1.55rem); }
+@media (min-width: 58rem) {
+  .wide .device { grid-template-columns: minmax(0, 1fr) 15.25rem; gap: 1.55rem; }
+}
+@media (max-width: 44rem) {
+  .wide { width: 100%; margin-left: 0; }
+}
 
 /* ============================================================
    stats: open spec row, not a card grid
@@ -336,6 +358,7 @@ h2 {
 }
 section > .eyebrow { display: block; margin-bottom: .55rem; }
 .abstract { color: var(--ink-2); }
+.lede { color: var(--ink-2); max-width: 38rem; }
 .abstract b { color: var(--ink); font-weight: 600; }
 
 .theorem {
@@ -382,6 +405,10 @@ section > .eyebrow { display: block; margin-bottom: .55rem; }
 }
 .device svg.plot path.curve { fill: none; stroke-width: 2; stroke-linecap: round; }
 .device svg.plot .gridline { stroke: var(--hairline-2); stroke-width: 1; }
+@media (max-width: 44rem) {
+  .device svg.plot { height: 13.5rem; }
+  .device svg.plot text { font-size: 11px; }
+}
 
 .readout {
   display: flex; flex-direction: column; gap: .55rem;
@@ -400,13 +427,19 @@ section > .eyebrow { display: block; margin-bottom: .55rem; }
 .verdict.good { background: var(--tint); color: var(--accent); }
 .verdict.bad  { background: var(--soil-tint); color: var(--soil); }
 .verdict b { font-weight: 600; }
+.verdict span { display: block; }
 
 .controls { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1.1rem; }
+@media (min-width: 58rem) {
+  #bench figure .controls .seg { flex-basis: 100%; width: max-content; }
+  #bench figure .controls .sliderbox { min-width: min(21rem, 100%); }
+}
 .seg {
   display: inline-flex; padding: 2px;
   background: var(--code-bg); border: 1px solid var(--hairline-2); border-radius: 999px;
 }
 .seg button {
+  min-height: 2.75rem;
   font-family: var(--mono); font-size: .72rem; letter-spacing: .04em;
   color: var(--muted); background: transparent; border: none; border-radius: 999px;
   padding: .42em 1em; cursor: pointer;
@@ -419,8 +452,8 @@ section > .eyebrow { display: block; margin-bottom: .55rem; }
 .sliderbox label { font-family: var(--mono); font-size: .72rem; letter-spacing: .05em; color: var(--muted); white-space: nowrap; }
 input[type="range"] {
   flex: 1; appearance: none; -webkit-appearance: none;
-  height: 4px; border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent-2) var(--fill, 30%), var(--hairline) var(--fill, 30%));
+  height: 28px; padding: 12px 0; border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent-2) var(--fill, 30%), var(--hairline) var(--fill, 30%)) content-box;
   cursor: pointer;
 }
 input[type="range"]::-webkit-slider-thumb {
@@ -440,6 +473,215 @@ input[type="range"]::-moz-range-thumb {
   color: var(--ink); min-width: 4.6em; text-align: right;
 }
 
+
+/* ============================================================
+   the bench: measured ensemble, live economics, transfer test
+   chart marks are hard-coded hex, not tokens: plates stay white
+   in dark mode (paper figures are not inverted), so the light
+   steps are the right ones on this surface in both themes.
+   pair validated on #ffffff: CVD dE 19.2 deutan, normal 19.7.
+   ============================================================ */
+.sr {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+svg.plot .bb-band { fill: #8a5a2b; opacity: .09; }
+svg.plot .bb-c1 { stroke: #4C72B0; }
+svg.plot .bb-c2 { stroke: #8a5a2b; }
+svg.plot .bb-dot { stroke: var(--plate); stroke-width: 2; }
+svg.plot .bb-lab1 { fill: #4C72B0; font-weight: 600; }
+svg.plot .bb-lab2 { fill: #8a5a2b; font-weight: 600; }
+svg.plot .bb-cross { stroke: #6e6e73; opacity: .4; stroke-width: 1; }
+
+.sw {
+  appearance: none; -webkit-appearance: none;
+  width: 52px; height: 34px; border-radius: 999px;
+  background: var(--code-bg); border: 1px solid var(--hairline);
+  position: relative; cursor: pointer; padding: 0;
+  transition: background-color .25s var(--ease-out), border-color .25s ease;
+}
+.sw::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--plate); box-shadow: var(--shadow-s);
+  transition: transform .25s var(--ease-out);
+}
+.sw[aria-pressed="true"] { background: var(--accent-2); border-color: transparent; }
+.sw[aria-pressed="true"]::after { transform: translateX(20px); }
+.sw:active { transform: scale(.94); }
+.sw:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+
+.bb-table { width: 100%; margin-top: 1.4rem; border-collapse: collapse; }
+.bb-table.wide {
+  width: min(61rem, calc(100vw - 2.8rem));
+  margin-left: calc((100% - min(61rem, calc(100vw - 2.8rem))) / 2);
+}
+.bb-table th {
+  font-family: var(--mono); font-size: .62rem; font-weight: 500;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--muted);
+  text-align: left; padding: 0 .9rem .55rem 0; border-bottom: 1px solid var(--hairline);
+  white-space: nowrap;
+}
+.bb-table th.n, .bb-table td.n { text-align: right; font-variant-numeric: tabular-nums; }
+.bb-table td { padding: .5rem .9rem .5rem 0; border-bottom: 1px solid var(--hairline-2); font-size: .93rem; }
+.bb-table td.n { font-family: var(--mono); font-size: .8rem; color: var(--ink-2); }
+.bb-table td:last-child { padding-right: 0; width: 34%; }
+.bb-table tr.off td { color: var(--muted); }
+.bb-table tr.off .bb-name { text-decoration: line-through; text-decoration-color: var(--muted); }
+.bb-table tr.off td.n { color: var(--muted); }
+.bb-name { font-weight: 500; }
+.bb-bar { display: block; position: relative; height: 6px; background: var(--code-bg); border-radius: 3px; }
+.bb-bar i { position: absolute; inset: 0 auto 0 0; background: var(--accent-2); border-radius: 3px; }
+.bb-table tr.off .bb-bar i { background: var(--hairline); }
+@media (hover: hover) and (pointer: fine) {
+  .bb-table tbody tr:hover td { background: var(--hairline-2); }
+}
+@media (max-width: 34rem) {
+  .bb-table { display: block; }
+  .bb-table thead { display: none; }
+  .bb-table tbody { display: block; }
+  .bb-table tr {
+    display: grid;
+    grid-template-columns: 3.75rem minmax(0, 1fr) auto;
+    column-gap: .65rem;
+    row-gap: .16rem;
+    align-items: center;
+    padding: .78rem 0;
+    border-bottom: 1px solid var(--hairline-2);
+  }
+  .bb-table td { border-bottom: 0; padding: 0; }
+  .bb-table td:first-child { grid-row: 1 / 3; align-self: center; }
+  .bb-table td:nth-child(2) { grid-column: 2 / 4; font-size: .95rem; }
+  .bb-table td:nth-child(3) { grid-column: 2; text-align: left; }
+  .bb-table td:nth-child(4) { grid-column: 3; text-align: right; }
+  .bb-table td:nth-child(3)::before { content: "σ "; color: var(--muted); }
+  .bb-table td:nth-child(4)::before { content: "α "; color: var(--muted); }
+  .bb-table th:nth-child(5), .bb-table td:nth-child(5) { display: none; }
+  .bb-table.wide { width: 100%; margin-left: 0; }
+}
+
+.bb-sub {
+  font-family: var(--mono); font-size: .7rem; font-weight: 500;
+  letter-spacing: .13em; text-transform: uppercase;
+  color: var(--accent); margin-top: 2.6rem;
+}
+.bb-note { font-size: .88rem; color: var(--muted); margin-top: 1rem; max-width: 38rem; }
+
+.use-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .75rem;
+  margin: 1.55rem 0 0;
+}
+.use-grid.wide { margin-left: calc((100% - min(61rem, calc(100vw - 2.8rem))) / 2); }
+.use-card {
+  position: relative;
+  min-height: 13.2rem;
+  padding: 1rem;
+  border: 1px solid var(--hairline-2);
+  border-radius: 16px;
+  background:
+    linear-gradient(150deg, var(--tint), transparent 46%),
+    linear-gradient(0deg, var(--bg-elev), var(--bg-elev));
+  overflow: hidden;
+}
+.use-card::after {
+  content: "";
+  position: absolute; inset: auto 0 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-2), var(--soil));
+  opacity: .74;
+}
+.use-card span {
+  display: block;
+  font-family: var(--mono); font-size: .62rem; font-weight: 500;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--soil);
+}
+.use-card h3 {
+  margin-top: .75rem;
+  font-family: var(--display); font-size: 1.02rem; line-height: 1.18;
+  letter-spacing: -.018em;
+}
+.use-card p { margin-top: .6rem; color: var(--ink-2); font-size: .88rem; line-height: 1.55; }
+.use-card b { color: var(--ink); font-weight: 600; }
+@media (max-width: 58rem) { .use-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 44rem) { .use-grid.wide { margin-left: 0; } }
+@media (max-width: 34rem) { .use-grid { grid-template-columns: 1fr; } .use-grid.wide { margin-left: 0; } .use-card { min-height: 0; } }
+
+.conds { margin: 1.6rem 0 0; }
+.conds > div {
+  display: grid; grid-template-columns: 11.5rem 1fr; gap: 1.1rem;
+  padding: .85rem 0; border-top: 1px solid var(--hairline-2);
+}
+.conds > div:last-child { border-bottom: 1px solid var(--hairline-2); }
+.conds dt {
+  font-family: var(--mono); font-size: .72rem; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--soil); padding-top: .2rem;
+}
+.conds dd { margin: 0; color: var(--ink-2); font-size: .95rem; }
+.conds dd b { color: var(--ink); font-weight: 600; }
+@media (max-width: 44rem) { .conds > div { grid-template-columns: 1fr; gap: .25rem; } }
+
+@media (max-width: 44rem) {
+  .sliderbox {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .25rem .75rem;
+    align-items: center;
+  }
+  .sliderbox label { min-width: 0; white-space: normal; }
+  .sliderbox input[type="range"] { grid-column: 1 / -1; width: 100%; min-width: 0; }
+  .sval { min-width: 3.4em; font-size: .72rem; }
+}
+@media (max-width: 24rem) {
+  .chrome a.nav-link[href="#beyond"] { display: none; }
+}
+@media (max-width: 40rem) {
+  .chrome a.nav-link[href="#abstract"],
+  .chrome a.nav-link[href="#bibtex"],
+  .chrome a.nav-link[href="crps-wls-extended.pdf"] { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sw::after { transition: none; }
+  .sw { transition: none; }
+}
+
+
+/* plates are paper figures: the surface stays white in dark mode, so the
+   tokens inside a plate stay light-theme too. one scope fixes the verdict
+   pills, captions and controls of every device on the page. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .plate {
+    --bg:        #ffffff;
+    --ink:       #1d1d1f;
+    --ink-2:     #424245;
+    --muted:     #6e6e73;
+    --accent:    #3d64a6;
+    --accent-2:  #4C72B0;
+    --soil:      #8a5a2b;
+    --soil-tint: rgba(138,90,43,.09);
+    --tint:      rgba(76,114,176,.08);
+    --code-bg:   #f5f5f7;
+    --hairline:  rgba(0,0,0,.09);
+    --hairline-2:rgba(0,0,0,.055);
+  }
+}
+:root[data-theme="dark"] .plate {
+  --bg:        #ffffff;
+  --ink:       #1d1d1f;
+  --ink-2:     #424245;
+  --muted:     #6e6e73;
+  --accent:    #3d64a6;
+  --accent-2:  #4C72B0;
+  --soil:      #8a5a2b;
+  --soil-tint: rgba(138,90,43,.09);
+  --tint:      rgba(76,114,176,.08);
+  --code-bg:   #f5f5f7;
+  --hairline:  rgba(0,0,0,.09);
+  --hairline-2:rgba(0,0,0,.055);
+}
+
 /* ============================================================
    code blocks
    ============================================================ */
@@ -448,14 +690,21 @@ input[type="range"]::-moz-range-thumb {
   background: var(--code-bg);
   border: 1px solid var(--hairline-2);
   border-radius: 14px;
+  overflow: hidden;
 }
 .code pre {
   font-family: var(--mono); font-size: .8rem; line-height: 1.75;
   color: var(--ink);
   padding: 1.1rem 5rem 1.1rem 1.2rem;
   overflow-x: auto;
+  max-width: 100%;
 }
+.code pre span { white-space: inherit; }
 .code .cmt { color: var(--muted); }
+@media (max-width: 44rem) {
+  .code pre { white-space: pre-wrap; padding-right: 1.2rem; }
+  .code .cmt { display: block; }
+}
 .copy {
   position: absolute; top: .6rem; right: .6rem;
   font-family: var(--sans); font-size: .72rem; font-weight: 500;
@@ -477,7 +726,7 @@ footer { position: relative; margin-top: clamp(4rem, 9vw, 6rem); }
   background: linear-gradient(90deg, #6b431f, #8a5a2b 30%, #a97b4a 62%, #8a5a2b);
   opacity: .8;
 }
-:root[data-theme="dark"] .strata, :root:not([data-theme="light"]) .strata { opacity: .5; }
+:root[data-theme="dark"] .strata { opacity: .5; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .strata { opacity: .5; }
 }
@@ -559,6 +808,8 @@ dialog.lb p {
     <a class="wordmark" href="#top">CRPS&thinsp;&middot;&thinsp;WLS</a>
     <a class="nav-link" href="#abstract">Abstract</a>
     <a class="nav-link" href="#condition">Condition</a>
+    <a class="nav-link" href="#bench">Bench</a>
+    <a class="nav-link" href="#beyond">Use cases</a>
     <a class="nav-link" href="crps-wls-extended.pdf">Extended version</a>
     <a class="nav-link" href="#bibtex">Cite</a>
     <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch colour theme">
@@ -572,7 +823,7 @@ dialog.lb p {
 
 <div class="hero">
     <p class="venue reveal">
-      <b>Conditionally accepted</b>
+      <b>Accepted</b>
       <i class="dot"></i>
       <span>MARBLE 2026</span>
       <i class="dot"></i>
@@ -686,15 +937,15 @@ dialog.lb p {
 <section id="condition">
   <span class="eyebrow reveal">Interactive</span>
   <h2 class="reveal">The diversity condition, in one drag</h2>
-  <p class="lede reveal" style="color: var(--ink-2); max-width: 38rem;">Three sensors report Gaussian
+  <p class="lede reveal">Three sensors report Gaussian
   beliefs about one parcel, each with its own precision. Drag the manipulation and watch what the reports reveal. With identical
   sensitivities, every mean shifts by the same amount, so the shift is indistinguishable from a
   genuine rise in SOC. With diverse sensitivities, the design matrix [<b>1</b>&nbsp;|&nbsp;<var>&alpha;</var>]
   separates the two, and the manipulation is recovered exactly.</p>
 
-  <figure class="plate reveal" style="margin-top: 1.4rem;">
+  <figure class="plate wide reveal" style="margin-top: 1.4rem;">
     <div class="device">
-      <svg class="plot" viewBox="0 0 700 300" role="img" aria-label="Three Gaussian sensor beliefs under a drag-controlled manipulation">
+      <svg id="conditionPlot" class="plot" viewBox="0 0 700 300" role="img" aria-label="Three Gaussian sensor beliefs under a drag-controlled manipulation">
         <line class="axis" x1="0" y1="286" x2="700" y2="286"/>
         <line class="gridline" x1="93.3" y1="30" x2="93.3" y2="286"/>
         <line class="gridline" x1="210" y1="30" x2="210" y2="286"/>
@@ -718,7 +969,7 @@ dialog.lb p {
           <div><i style="background:#8a5a2b"></i>&Delta;m<sub>2</sub> <span id="r2">+1.95</span></div>
           <div><i style="background:#98a0ad"></i>&Delta;m<sub>3</sub> <span id="r3">+4.05</span></div>
         </div>
-        <p class="verdict good" id="verdict" aria-live="polite"><b>&scaron; = 3.0 g/kg</b><br>manipulation identified</p>
+        <p class="verdict good" id="verdict" aria-live="polite"><b>&scaron; = 3.0 g/kg</b> <span>manipulation identified</span></p>
       </div>
     </div>
     <div class="controls">
@@ -788,10 +1039,200 @@ dialog.lb p {
   </ol>
 </section>
 
+
+<section id="bench">
+  <span class="eyebrow reveal">Interactive</span>
+  <h2 class="reveal">Measured model ensemble</h2>
+  <p class="lede reveal">The drag example teaches the
+  condition. This panel applies the same algebra to the eight measured models, using the parameters
+  reported in the paper. Switch a model off, stage the site, or compress the response spread, and
+  every reading recomputes in closed form.</p>
+
+  <figure class="plate wide reveal" style="margin-top: 1.4rem;">
+    <div class="device">
+      <svg id="bbPlot" class="plot" viewBox="0 0 700 300" role="img"
+           aria-label="Systematic credit bias against staging intensity for the switched-on ensemble. The shift-naive band climbs while the joint estimate stays on zero.">
+        <line class="gridline" x1="34" y1="226.2" x2="636.0" y2="226.2"/>
+        <text x="26" y="221.2" text-anchor="end">0</text>
+        <line class="gridline" x1="34" y1="166.7" x2="636.0" y2="166.7"/>
+        <text x="26" y="161.7" text-anchor="end">20</text>
+        <line class="gridline" x1="34" y1="107.2" x2="636.0" y2="107.2"/>
+        <text x="26" y="102.2" text-anchor="end">40</text>
+        <line class="gridline" x1="34" y1="47.7" x2="636.0" y2="47.7"/>
+        <text x="26" y="42.7" text-anchor="end">60</text>
+        <line class="axis" x1="34" y1="256.0" x2="636.0" y2="256.0"/>
+        <text x="34.0" y="270" text-anchor="middle">0</text>
+        <text x="184.5" y="270" text-anchor="middle">25</text>
+        <text x="335.0" y="270" text-anchor="middle">50</text>
+        <text x="485.5" y="270" text-anchor="middle">75</text>
+        <text x="636.0" y="270" text-anchor="middle">100</text>
+        <text x="335.0" y="292" text-anchor="middle">staging &#183; % of the true value</text>
+        <line class="gridline" x1="34" y1="226.2" x2="636.0" y2="226.2" style="stroke:#6e6e73;opacity:.35"/>
+        <path class="bb-band" d="M34.0,226.2 L636.0,47.3 L636.0,68.3 Z"/>
+        <polyline class="curve bb-c2" points="34.0,226.2 636.0,57.9"/>
+        <polyline class="curve bb-c1" points="34.0,226.2 636.0,226.2"/>
+        <text class="bb-lab2" x="644.0" y="61.4">+57%</text>
+        <text class="bb-lab1" x="644.0" y="229.7">+0%</text>
+      </svg>
+      <div class="readout">
+        <span class="eyebrow">Read-out</span>
+        <div class="rows" id="bbRows" aria-live="polite">
+          <div>models&nbsp;online <span id="bbN">8 of 8</span></div>
+          <div>response&nbsp;range <span id="bbRange">0.004&ndash;1.000</span></div>
+          <div>sd(&scaron;)&nbsp;detector <span id="bbSd">18.1 g/kg</span></div>
+          <div>honest&nbsp;error <span id="bbMare">57%</span></div>
+          <div>detection <span id="bbPow">29.4%</span></div>
+        </div>
+        <p class="verdict good" id="bbVerdict" aria-live="polite"><b>Diversity holds</b> <span>the pattern across readers separates staging from carbon</span></p>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Ensemble presets" id="bbSeg">
+        <button type="button" data-preset="all" aria-pressed="true">All eight</button>
+        <button type="button" data-preset="drop8" aria-pressed="false">Drop flattest</button>
+        <button type="button" data-preset="clones" aria-pressed="false">Similar responses</button>
+      </div>
+      <div class="sliderbox">
+        <label for="bbStage">staging</label>
+        <input type="range" id="bbStage" min="0" max="100" step="1" value="100" aria-label="Staging intensity as a share of the true value">
+        <span class="sval" id="bbStageVal">100%</span>
+      </div>
+      <div class="sliderbox">
+        <label for="bbSpread">response&nbsp;spread</label>
+        <input type="range" id="bbSpread" min="0" max="100" step="1" value="100" aria-label="Spread of staging responses as a share of the measured spread">
+        <span class="sval" id="bbSpreadVal">100%</span>
+      </div>
+    </div>
+    <figcaption><b>Live.</b> Every curve is the closed-form weighted least squares read-out of the
+    switched-on ensemble. The ochre band is where the aggregation rules of deployed systems land;
+    the blue line is the joint estimate. The defaults reproduce the paper: a detector standard
+    deviation of 18.1&nbsp;g/kg, and +57% over-credit against a near-zero joint bias at full staging.</figcaption>
+  </figure>
+
+  <table class="bb-table wide reveal">
+    <caption class="sr">The eight measured models with their noise and staging response</caption>
+    <thead>
+      <tr>
+        <th scope="col"><span class="sr">Included</span></th>
+        <th scope="col">Model</th>
+        <th scope="col" class="n">Noise &sigma;<sub>i</sub></th>
+        <th scope="col" class="n">Response &alpha;<sub>i</sub></th>
+        <th scope="col"><span class="sr">Response, to scale</span></th>
+      </tr>
+    </thead>
+    <tbody id="bbBody"></tbody>
+  </table>
+
+  <p class="bb-sub reveal">Deterrent stake</p>
+  <div class="controls reveal" style="margin-top: .9rem;">
+    <div class="sliderbox">
+      <label for="bbPrice">carbon&nbsp;price</label>
+      <input type="range" id="bbPrice" min="5" max="150" step="1" value="15" aria-label="Carbon price in dollars per tonne of carbon dioxide">
+      <span class="sval" id="bbPriceVal">$15 / t</span>
+    </div>
+    <div class="sliderbox">
+      <label for="bbArea">parcel&nbsp;area</label>
+      <input type="range" id="bbArea" min="1" max="500" step="1" value="1" aria-label="Parcel area in hectares">
+      <span class="sval" id="bbAreaVal">1 ha</span>
+    </div>
+  </div>
+  <div class="stats reveal" style="margin-top: 1.4rem;">
+    <div><strong id="bbHonest">$4,269</strong><span>honest payout / round</span></div>
+    <div><strong id="bbGain">$2,416</strong><span>staged gain, naive credit</span></div>
+    <div><strong id="bbStake">$9,911</strong><span>minimum deterring stake</span></div>
+    <div><strong id="bbMult">4&times;</strong><span>stake per unit of gain</span></div>
+  </div>
+  <p class="bb-note reveal">Readings in g/kg of soil organic carbon. The payout row prices one
+  round on the median mineral parcel at 19.9&nbsp;g/kg. What deters is the detector's power above
+  its false-alarm rate, not its raw power; crediting on the joint estimate removes the gain
+  outright and needs no stake, at the cost of a higher honest-case error.</p>
+</section>
+
+<section id="beyond">
+  <span class="eyebrow reveal">Scope</span>
+  <h2 class="reveal">Beyond soil carbon</h2>
+  <p class="lede reveal">The theorem is not about
+  soil. It is about payment settled on a continuous measurement that the paid party can stage
+  before it is taken. Any domain with that shape admits the same test, and the test asks five
+  things of it.</p>
+
+  <div class="use-grid wide reveal" aria-label="Candidate use cases and boundary cases">
+    <article class="use-card">
+      <span>Measured here</span>
+      <h3>Soil carbon MRV</h3>
+      <p>Credits settle on estimated SOC. The paper measures how eight spectral models respond when the site state is staged before reading.</p>
+    </article>
+    <article class="use-card">
+      <span>Candidate</span>
+      <h3>Water-quality credits</h3>
+      <p>A continuous concentration or load can be moved by timing, flushing or dilution. The test asks whether independent readers move differently.</p>
+    </article>
+    <article class="use-card">
+      <span>Candidate</span>
+      <h3>Methane-intensity penalties</h3>
+      <p>Operations can change around an observation window. The mechanism needs readers with different physical or temporal sensitivities.</p>
+    </article>
+    <article class="use-card">
+      <span>Boundary</span>
+      <h3>Identical meters fail</h3>
+      <p>If every reader is the same instrument or model, reports alone cannot separate staging from a real increase. Add a modality or obtain trusted truth.</p>
+    </article>
+  </div>
+
+  <dl class="conds reveal">
+    <div><dt>Continuous settlement</dt><dd>A payment, penalty or contractual trigger settles on a
+    <b>continuously measured quantity</b>, not a yes-or-no attestation.</dd></div>
+    <div><dt>No cheap truth</dt><dd>There is <b>no affordable trusted ground truth</b>. Where a
+    certified meter settles the question, use that meter.</dd></div>
+    <div><dt>Independent readers</dt><dd>At least <b>three independently operated estimators</b>
+    read the same physical event. Two is the algebraic minimum; three is the practical floor.</dd></div>
+    <div><dt>A spread of responses</dt><dd>The readers respond to the staging move <b>by different
+    amounts</b>. Different modalities give this almost for free; a fleet of identical instruments
+    never does.</dd></div>
+    <div><dt>Staging, not tampering</dt><dd>The manipulation acts <b>on the physical process</b> before
+    measurement. Falsifying a report afterwards is a different, better-studied problem.</dd></div>
+  </dl>
+
+  <figure class="plate wide reveal" style="margin-top: 1.9rem;">
+    <div class="controls" style="margin-top: 0;">
+      <div class="sliderbox">
+        <label for="trN">independent&nbsp;readers</label>
+        <input type="range" id="trN" min="2" max="24" step="1" value="8" aria-label="Number of independent readers">
+        <span class="sval" id="trNVal">8</span>
+      </div>
+      <div class="sliderbox">
+        <label for="trNoise">reader&nbsp;noise</label>
+        <input type="range" id="trNoise" min="5" max="150" step="1" value="70" aria-label="Reader noise as a percentage of the quantity">
+        <span class="sval" id="trNoiseVal">70%</span>
+      </div>
+      <div class="sliderbox">
+        <label for="trSpread">response&nbsp;spread</label>
+        <input type="range" id="trSpread" min="0" max="100" step="1" value="100" aria-label="Spread of responses to the gaming move">
+        <span class="sval" id="trSpreadVal">100%</span>
+      </div>
+      <div class="sliderbox">
+        <label for="trCheat">staging&nbsp;size</label>
+        <input type="range" id="trCheat" min="1" max="100" step="1" value="20" aria-label="Size of the staging move as a percentage of the quantity">
+        <span class="sval" id="trCheatVal">20%</span>
+      </div>
+    </div>
+    <div class="stats" style="margin-top: 1.2rem; border-top: 1px solid var(--hairline-2); padding-top: 1.2rem;">
+      <div><strong id="trEst">31%</strong><span>staging estimate, sd</span></div>
+      <div><strong id="trDet">7.5%</strong><span>detection at 5% alarm</span></div>
+      <div><strong id="trStake">21&times;</strong><span>stake per unit of gain</span></div>
+      <div><strong id="trErr">25%</strong><span>settlement error</span></div>
+    </div>
+    <p class="verdict good" id="trVerdict" aria-live="polite" style="margin-top: 1.1rem;"><b>Workable with a stake</b> <span>the mechanism identifies staging</span></p>
+    <figcaption><b>Screening.</b> Describe an ensemble and the calculator runs the same test at the
+    false-alarm rate used above. It is a screening tool on an idealised design, not a result:
+    only soil carbon has had its sensitivities measured.</figcaption>
+  </figure>
+</section>
+
 <section id="reproduce">
   <span class="eyebrow reveal">Code</span>
   <h2 class="reveal">Reproduce</h2>
-  <p class="lede reveal" style="color: var(--ink-2);">Every simulation figure regenerates from the
+  <p class="lede reveal">Every simulation figure regenerates from the
   committed experiment outputs, with no dataset and no GPU.</p>
   <div class="code reveal">
     <button class="copy" type="button" data-copy="repro" aria-label="Copy commands to clipboard">Copy</button>
@@ -921,6 +1362,7 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
   var slider = document.getElementById('mSlider');
   var sval   = document.getElementById('sval');
   var verdict = document.getElementById('verdict');
+  var conditionPlot = document.getElementById('conditionPlot');
   var segIdent = document.getElementById('segIdent');
   var segDiv   = document.getElementById('segDiv');
   var mode = 'diverse';
@@ -949,13 +1391,16 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
     });
     if (mode === 'identical') {
       verdict.className = 'verdict bad';
-      verdict.innerHTML = '<b>&scaron; not identifiable</b><br>peer scores unchanged';
+      verdict.innerHTML = '<b>&scaron; not identifiable</b> <span>peer scores unchanged</span>';
+      conditionPlot.setAttribute('aria-label', 'Identical sensor sensitivities with source manipulation '+s.toFixed(1)+' grams per kilogram. All means shift together, so manipulation is not identifiable.');
     } else if (s === 0) {
       verdict.className = 'verdict good';
-      verdict.innerHTML = '<b>s = 0 g/kg</b><br>no manipulation present';
+      verdict.innerHTML = '<b>s = 0 g/kg</b> <span>no manipulation present</span>';
+      conditionPlot.setAttribute('aria-label', 'Diverse sensor sensitivities with no source manipulation. The reports show no manipulation.');
     } else {
       verdict.className = 'verdict good';
-      verdict.innerHTML = '<b>&scaron; = ' + s.toFixed(1) + ' g/kg</b><br>manipulation identified';
+      verdict.innerHTML = '<b>&scaron; = ' + s.toFixed(1) + ' g/kg</b> <span>manipulation identified</span>';
+      conditionPlot.setAttribute('aria-label', 'Diverse sensor sensitivities with source manipulation '+s.toFixed(1)+' grams per kilogram. The weighted least squares read-out identifies the manipulation.');
     }
   }
 
@@ -1021,6 +1466,266 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
       });
     });
   });
+})();
+</script>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ── measured inputs · paper Table 1 ───────────────────────────────── */
+  var MODELS = [
+    { name: 'CNN',                 sigma: 13.22, alpha: 1.000 },
+    { name: 'Random forest',       sigma: 13.23, alpha: 0.418 },
+    { name: 'Vision Transformer',  sigma: 13.41, alpha: 0.538 },
+    { name: 'Swin transformer',    sigma: 13.66, alpha: 0.705 },
+    { name: 'Stacked autoencoder', sigma: 14.02, alpha: 0.716 },
+    { name: 'SSL-SoilNet',         sigma: 14.60, alpha: 0.202 },
+    { name: 'Ridge (linear)',      sigma: 14.72, alpha: 0.665 },
+    { name: 'CNN-LSTM-ECA',        sigma: 17.98, alpha: 0.004 }
+  ];
+  var E_INV_THETA = 0.06229;        /* E[1/theta] over the 17,231 mineral parcels */
+  var SOC_TO_CO2  = 3.9 * 44 / 12;  /* tCO2 per hectare per g/kg                   */
+  var PRESETS = {
+    all:    [1,1,1,1,1,1,1,1],
+    drop8:  [1,1,1,1,1,1,1,0],
+    clones: [0,0,1,1,1,0,1,0]
+  };
+
+  var S = {
+    on: PRESETS.all.slice(),
+    s: 1, lam: 1, price: 15, area: 1,
+    tN: 8, tNoise: 0.70, tSpread: 1, tCheat: 0.20
+  };
+  var FA = 0.05;                    /* matches the paper's false-alarm rate */
+
+  /* ── math: identical to the verified demo ─────────────────────────── */
+  function erf(x) {
+    var sg = x < 0 ? -1 : 1; x = Math.abs(x);
+    var t = 1 / (1 + 0.3275911 * x);
+    return sg * (1 - ((((1.061405429*t - 1.453152027)*t + 1.421413741)*t
+      - 0.284496736)*t + 0.254829592)*t * Math.exp(-x*x));
+  }
+  function Phi(z) { return 0.5 * (1 + erf(z / Math.SQRT2)); }
+  function probit(p) {
+    var a=[-3.969683028665376e+01,2.209460984245205e+02,-2.759285104469687e+02,
+           1.383577518672690e+02,-3.066479806614716e+01,2.506628277459239e+00];
+    var b=[-5.447609879822406e+01,1.615858368580409e+02,-1.556989798598866e+02,
+           6.680131188771972e+01,-1.328068155288572e+01];
+    var c=[-7.784894002430293e-03,-3.223964580411365e-01,-2.400758277161838e+00,
+           -2.549732539343734e+00,4.374664141464968e+00,2.938163982698783e+00];
+    var d=[7.784695709041462e-03,3.224671290700398e-01,2.445134137142996e+00,
+           3.754408661907416e+00];
+    var pl=0.02425, q, r;
+    if (p<pl){q=Math.sqrt(-2*Math.log(p));
+      return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+    if (p>1-pl){q=Math.sqrt(-2*Math.log(1-p));
+      return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);}
+    q=p-0.5;r=q*q;
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/
+           (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1);
+  }
+  function median(a) {
+    var b = a.slice().sort(function(x,y){return x-y;}), m = b.length >> 1;
+    return b.length % 2 ? b[m] : 0.5*(b[m-1]+b[m]);
+  }
+  function ensemble() {
+    var sig=[], raw=[],i;
+    for (i=0;i<8;i++) if (S.on[i]) { sig.push(MODELS[i].sigma); raw.push(MODELS[i].alpha); }
+    var n=raw.length, abar = n ? raw.reduce(function(x,y){return x+y;},0)/n : 0;
+    return { n:n, sig:sig, alpha: raw.map(function(a){return abar + S.lam*(a-abar);}) };
+  }
+  function fit(e) {
+    var n=e.n, i, w;
+    var r = { n:n,
+      alphaMean:  n ? e.alpha.reduce(function(x,y){return x+y;},0)/n : 0,
+      alphaMedian: n ? median(e.alpha) : 0,
+      alphaMin: n ? Math.min.apply(null,e.alpha) : 0,
+      alphaMax: n ? Math.max.apply(null,e.alpha) : 0 };
+    if (n<2) { r.ok=false; r.kappa=r.alphaMean; r.vTheta=r.vS=Infinity; return r; }
+    var Sw=0,Swa=0,Swaa=0;
+    for (i=0;i<n;i++){ w=1/(e.sig[i]*e.sig[i]);
+      Sw+=w; Swa+=w*e.alpha[i]; Swaa+=w*e.alpha[i]*e.alpha[i]; }
+    var det = Sw*Swaa - Swa*Swa;
+    r.kappa = Swa/Sw;
+    var spread=0;
+    for (i=0;i<n;i++) spread += (1/(e.sig[i]*e.sig[i]))*Math.pow(e.alpha[i]-r.kappa,2);
+    r.ok = det>1e-12 && spread>1e-12;
+    r.vTheta = r.ok ? Swaa/det : Infinity;
+    r.vS = r.ok ? 1/spread : Infinity;
+    return r;
+  }
+  var mare = function(v){ return Math.sqrt(2*v/Math.PI)*E_INV_THETA; };
+  var power = function(s,vS,fa){
+    return (!isFinite(vS)||vS<=0) ? fa : 1-Phi(probit(1-fa)-s/Math.sqrt(vS)); };
+
+  function pct(x,d){ return (x*100).toFixed(d===undefined?0:d)+'%'; }
+  function sgnP(x,d){ var v=(x*100).toFixed(d===undefined?1:d); return (x>=0?'+':'')+v+'%'; }
+  function usd(x){
+    if(!isFinite(x)) return 'unbounded';
+    if(Math.abs(x)>=1e6) return '$'+(x/1e6).toFixed(1)+'M';
+    return '$'+Math.round(x).toLocaleString('en-GB');
+  }
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ── plot geometry: matches the static markup ─────────────────────── */
+  var BW=700,BH=300,BL=34,BR=64,BT=18,BB=44;
+  var bX=function(x){ return BL + x*(BW-BL-BR); };
+  var bY=function(v){ v=Math.max(-0.10,Math.min(0.70,v));
+    return BT + (0.70-v)/0.80*(BH-BT-BB); };
+
+  function draw(f) {
+    var sl = { wls: f.ok?0:f.alphaMean, pwm:f.kappa, mean:f.alphaMean, med:f.alphaMedian };
+    var lo=Math.min(sl.pwm,sl.mean,sl.med), hi=Math.max(sl.pwm,sl.mean,sl.med);
+    var g='', v, yy, xx, i, x;
+    [[0,'0'],[20,'20'],[40,'40'],[60,'60']].forEach(function(t){
+      yy=bY(t[0]/100);
+      g+='<line class="gridline" x1="'+BL+'" y1="'+yy.toFixed(1)+'" x2="'+bX(1).toFixed(1)+'" y2="'+yy.toFixed(1)+'"/>';
+      g+='<text x="'+(BL-8)+'" y="'+(yy-5).toFixed(1)+'" text-anchor="end">'+t[1]+'</text>';
+    });
+    g+='<line class="axis" x1="'+BL+'" y1="'+(BT+238).toFixed(1)+'" x2="'+bX(1).toFixed(1)+'" y2="'+(BT+238).toFixed(1)+'"/>';
+    [0,25,50,75,100].forEach(function(tl){
+      g+='<text x="'+bX(tl/100).toFixed(1)+'" y="'+(BT+238+14)+'" text-anchor="middle">'+tl+'</text>';
+    });
+    g+='<text x="'+(BL+(BW-BL-BR)/2).toFixed(1)+'" y="'+(BH-8)+'" text-anchor="middle">staging &#183; % of the true value</text>';
+    g+='<line class="gridline" x1="'+BL+'" y1="'+bY(0).toFixed(1)+'" x2="'+bX(1).toFixed(1)+'" y2="'+bY(0).toFixed(1)+'" style="stroke:#6e6e73;opacity:.35"/>';
+    g+='<path class="bb-band" d="M'+bX(0).toFixed(1)+','+bY(0).toFixed(1)+
+       ' L'+bX(1).toFixed(1)+','+bY(hi).toFixed(1)+' L'+bX(1).toFixed(1)+','+bY(lo).toFixed(1)+' Z"/>';
+    g+='<polyline class="curve bb-c2" points="'+bX(0).toFixed(1)+','+bY(0).toFixed(1)+' '+bX(1).toFixed(1)+','+bY(sl.pwm).toFixed(1)+'"/>';
+    g+='<polyline class="curve bb-c1" points="'+bX(0).toFixed(1)+','+bY(0).toFixed(1)+' '+bX(1).toFixed(1)+','+bY(sl.wls).toFixed(1)+'"/>';
+    g+='<text class="bb-lab2" x="'+(bX(1)+8).toFixed(1)+'" y="'+(bY(sl.pwm)+3.5).toFixed(1)+'">'+sgnP(sl.pwm,0)+'</text>';
+    g+='<text class="bb-lab1" x="'+(bX(1)+8).toFixed(1)+'" y="'+(bY(sl.wls)+3.5).toFixed(1)+'">'+sgnP(sl.wls,0)+'</text>';
+    g+='<line class="bb-cross" x1="'+bX(S.s).toFixed(1)+'" y1="'+BT+'" x2="'+bX(S.s).toFixed(1)+'" y2="'+(BT+238).toFixed(1)+'"/>';
+    g+='<circle class="bb-dot" style="fill:#8a5a2b" cx="'+bX(S.s).toFixed(1)+'" cy="'+bY(sl.pwm*S.s).toFixed(1)+'" r="4.5"/>';
+    g+='<circle class="bb-dot" style="fill:#4C72B0" cx="'+bX(S.s).toFixed(1)+'" cy="'+bY(sl.wls*S.s).toFixed(1)+'" r="4.5"/>';
+    $('bbPlot').innerHTML = g;
+  }
+
+  /* ── bench rows ────────────────────────────────────────────────────── */
+  $('bbBody').innerHTML = MODELS.map(function(m,i){
+    return '<tr data-i="'+i+'">' +
+      '<td><button type="button" class="sw" data-i="'+i+'" aria-pressed="true" aria-label="Include '+m.name+' in the ensemble"></button></td>' +
+      '<td class="bb-name">'+m.name+'</td>' +
+      '<td class="n">'+m.sigma.toFixed(2)+'</td>' +
+      '<td class="n">'+m.alpha.toFixed(3)+'</td>' +
+      '<td><span class="bb-bar"><i style="width:'+(m.alpha*100).toFixed(1)+'%"></i></span></td>' +
+      '</tr>';
+  }).join('');
+  [].forEach.call($('bbBody').querySelectorAll('.sw'), function(b){
+    b.addEventListener('click', function(){
+      S.on[+b.getAttribute('data-i')] = !S.on[+b.getAttribute('data-i')];
+      render();
+    });
+  });
+
+  function paint(el){
+    var lo=+el.min, hi=+el.max;
+    el.style.setProperty('--fill', ((el.value-lo)/(hi-lo)*100).toFixed(2)+'%');
+  }
+  function bind(id, key, tf){
+    var el=$(id); paint(el);
+    el.addEventListener('input', function(){
+      S[key] = tf ? tf(+el.value) : +el.value;
+      paint(el); render();
+    });
+  }
+
+  function verdict(el, cls, title, body){
+    el.className = 'verdict '+cls;
+    el.innerHTML = '<b>'+title+'</b> <span>'+body+'</span>';
+  }
+
+  function render(){
+    var e=ensemble(), f=fit(e), n=e.n;
+    var sAbs=S.s*19.9;
+    var pw=f.ok ? power(sAbs,f.vS,FA) : FA;
+
+    $('bbStageVal').textContent=pct(S.s);
+    $('bbSpreadVal').textContent=pct(S.lam);
+
+    var rows=$('bbBody').children, k=0, i;
+    for(i=0;i<8;i++){
+      rows[i].className = S.on[i] ? '' : 'off';
+      rows[i].querySelector('.sw').setAttribute('aria-pressed', String(!!S.on[i]));
+      var eff = S.on[i] ? e.alpha[k++] : MODELS[i].alpha;
+      rows[i].querySelector('.bb-bar').firstChild.style.width =
+        (Math.max(0,Math.min(1,eff))*100).toFixed(1)+'%';
+    }
+    var segBtns=$('bbSeg').querySelectorAll('button'), match=-1;
+    ['all','drop8','clones'].some(function(p,j){
+      if (PRESETS[p].every(function(v,l){return !!v===!!S.on[l];})) { match=j; return true; }
+      return false;
+    });
+    [].forEach.call(segBtns, function(b,j){ b.setAttribute('aria-pressed', String(j===match)); });
+
+    draw(f);
+
+    $('bbN').textContent = n+' of 8';
+    $('bbRange').textContent = n>=2 ? f.alphaMin.toFixed(3)+'–'+f.alphaMax.toFixed(3) : 'n/a';
+    $('bbSd').textContent = f.ok ? Math.sqrt(f.vS).toFixed(1)+' g/kg' : '∞';
+    $('bbMare').textContent = f.ok ? pct(mare(f.vTheta),0) : '—';
+    $('bbPow').textContent = S.s<0.005 ? '—' : pct(pw,1);
+
+    if (n<2) verdict($('bbVerdict'),'bad','Nothing to compare','fewer than two readers report');
+    else if (!f.ok) verdict($('bbVerdict'),'bad','Not identifiable','a common shift leaves every peer score unchanged');
+    else if (Math.sqrt(f.vS)>30) verdict($('bbVerdict'),'bad','Thin','identifiable, but the stake must carry the deterrence');
+    else if (S.lam<0.35) verdict($('bbVerdict'),'bad','Collapsing','error runs away as the spread closes');
+    else verdict($('bbVerdict'),'good','Diversity holds','the pattern across readers separates staging from carbon');
+
+    var perGkg=SOC_TO_CO2*S.price*S.area;
+    var over = n>=2 ? f.kappa*sAbs*perGkg : 0;
+    var edge = pw-FA;
+    var stake = edge>1e-6 ? over/edge : Infinity;
+    $('bbPriceVal').textContent='$'+S.price+' / t';
+    $('bbAreaVal').textContent=S.area+' ha';
+    $('bbHonest').textContent=usd(19.9*perGkg);
+    $('bbGain').textContent=usd(over);
+    $('bbStake').textContent = S.s<0.005 ? '—' : usd(stake);
+    $('bbMult').textContent = (S.s<0.005 || !isFinite(stake)) ? '—'
+      : Math.round(stake/over)+'×';
+    $('bbPlot').setAttribute('aria-label', 'Measured model ensemble at '+pct(S.s,0)+' staging. Naive credit bias is '+sgnP(f.kappa*S.s,0)+', the joint estimate bias is '+sgnP((f.ok?0:f.alphaMean)*S.s,0)+', detection is '+(S.s<0.005 ? 'not applicable' : pct(pw,1))+', and the minimum deterring stake is '+(S.s<0.005 ? 'not applicable' : usd(stake))+'.');
+
+    /* transfer test */
+    $('trNVal').textContent=String(S.tN);
+    $('trNoiseVal').textContent=pct(S.tNoise);
+    $('trSpreadVal').textContent=pct(S.tSpread);
+    $('trCheatVal').textContent=pct(S.tCheat);
+    var N=S.tN, d=S.tSpread, al=[], j;
+    for(j=0;j<N;j++) al.push(N===1?1:(1-d)+d*j/(N-1));
+    var abar=al.reduce(function(x,y){return x+y;},0)/N, ss=0, saa=0;
+    for(j=0;j<N;j++){ ss+=Math.pow(al[j]-abar,2); saa+=al[j]*al[j]; }
+    var sg=S.tNoise;
+    var vSr = ss>1e-12 ? sg*sg/ss : Infinity;
+    var vTr = ss>1e-12 ? sg*sg*saa/(N*ss) : Infinity;
+    var pwT = isFinite(vSr) ? 1-Phi(probit(1-FA)-S.tCheat/Math.sqrt(vSr)) : FA;
+    var edT = pwT-FA, multT = edT>1e-6 ? 1/edT : Infinity;
+    $('trEst').textContent = isFinite(vSr) ? pct(Math.sqrt(vSr),0) : '∞';
+    $('trDet').textContent = pct(pwT,1);
+    $('trStake').textContent = isFinite(multT) ? Math.round(multT)+'×' : '∞';
+    $('trErr').textContent = isFinite(vTr) ? pct(Math.sqrt(2*vTr/Math.PI),0) : '∞';
+    if (N<3) verdict($('trVerdict'),'bad','Not enough readers','three independent readers is the practical floor');
+    else if (d<0.05) verdict($('trVerdict'),'bad','Ruled out','identical responses; a second modality comes first');
+    else if (!isFinite(multT)||multT>60) verdict($('trVerdict'),'bad','Marginal','identifiable, but the stake is not commercially plausible');
+    else if (pwT>0.4) verdict($('trVerdict'),'good','Strong candidate','detection alone is meaningful');
+    else verdict($('trVerdict'),'good','Workable with a stake','roughly '+Math.round(multT)+'× the gain deters');
+  }
+
+  [].forEach.call($('bbSeg').querySelectorAll('button'), function(b){
+    b.addEventListener('click', function(){
+      S.on = PRESETS[b.getAttribute('data-preset')].map(function(v){return !!v;});
+      render();
+    });
+  });
+  bind('bbStage','s',function(v){return v/100;});
+  bind('bbSpread','lam',function(v){return v/100;});
+  bind('bbPrice','price');
+  bind('bbArea','area');
+  bind('trN','tN');
+  bind('trNoise','tNoise',function(v){return v/100;});
+  bind('trSpread','tSpread',function(v){return v/100;});
+  bind('trCheat','tCheat',function(v){return v/100;});
+
+  render();
 })();
 </script>
 </body>
