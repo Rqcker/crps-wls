@@ -5,7 +5,7 @@ Prediction*, accepted at MARBLE 2026, the 7th International Conference on
 Mathematical Research for Blockchain Economy, Limassol, Cyprus, 16-18
 September 2026.
 
-**[Project page](https://junhaosong.com/crps-wls/)**
+**[Project page](https://junhaosong.com/crps-wls/)** · **[Extended preprint, with the full proofs](https://junhaosong.com/crps-wls/crps-wls-extended.pdf)**
 
 ![Mechanism overview](assets/teaser.png)
 
