@@ -868,10 +868,10 @@ dialog.lb p {
     </p>
     <nav class="links reveal">
       <!-- On publication: replace this span with <a class="btn" href="https://doi.org/DOI_HERE">Paper</a> -->
-      <span class="btn btn-quiet">Paper &middot; <small>in proceedings</small></span>
+      <span class="btn btn-quiet">Paper &middot; <small>to appear</small></span>
       <a class="btn" href="crps-wls-extended.pdf">Preprint &middot; <small>full proofs</small></a>
-      <a class="btn" href="https://rqcker.github.io/crps-wls/">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>Code</a>
+      <span class="btn btn-quiet">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>Code &middot; <small>release pending</small></span>
       <a class="btn btn-ghost" href="#bibtex">BibTeX</a>
     </nav>
   </div>
@@ -1252,16 +1252,10 @@ dialog.lb p {
 
 <section id="reproduce">
   <span class="eyebrow reveal">Code</span>
-  <h2 class="reveal">Reproduce</h2>
-  <p class="lede reveal">Every simulation figure regenerates from the
-  committed experiment outputs, with no dataset and no GPU.</p>
-  <div class="code reveal">
-    <button class="copy" type="button" data-copy="repro" aria-label="Copy commands to clipboard">Copy</button>
-<pre id="repro">git clone https://github.com/Rqcker/crps-wls
-pip install -r requirements.txt
-python -m src.plots        <span class="cmt"># figures from the committed CSVs</span>
-python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span></pre>
-  </div>
+  <h2 class="reveal">Release pending</h2>
+  <p class="lede reveal">The repository remains private while the public release is prepared.
+  Once released, it will include the committed experiment outputs needed to regenerate every
+  simulation figure without the dataset or a GPU, together with the code for all 16 experiments.</p>
 </section>
 
 <section id="bibtex">
@@ -1286,8 +1280,7 @@ python -m src.experiments  <span class="cmt"># re-run all 16 experiments</span><
   <div class="strata" aria-hidden="true"></div>
   <div class="foot-in">
     Funded by the Hitachi-Imperial Centre for Decarbonisation and Natural Climate Solutions.<br>
-    Code released under the MIT licence at
-    <a href="https://rqcker.github.io/crps-wls/">rqcker.github.io/crps-wls</a>.
+    The extended preprint is available now. Code will be released under the MIT licence.
   </div>
 </footer>
 
