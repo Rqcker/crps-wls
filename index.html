@@ -238,13 +238,20 @@ var { font-style: italic; font-family: inherit; }
 h1 {
   position: relative; z-index: 1;
   font-family: var(--display);
-  font-size: clamp(2.3rem, 6.4vw, 4.25rem);
-  line-height: 1.04;
-  letter-spacing: -.032em;
+  font-size: clamp(1.95rem, 5vw, 3.45rem);
+  line-height: 1.07;
+  letter-spacing: -.03em;
   font-weight: 600;
-  margin: 1.5rem auto 1.35rem;
-  max-width: 15.5em;
+  /* the title breaks out of the body measure so it sets in two lines */
+  width: min(52rem, calc(100vw - 2.8rem));
+  margin: 1.5rem 0 1.35rem calc((100% - min(52rem, calc(100vw - 2.8rem))) / 2);
   text-wrap: balance;
+}
+@media (max-width: 44rem) {
+  h1 { width: 100%; margin-left: 0; }
+}
+@media (max-width: 21rem) {
+  h1 { font-size: 1.7rem; }
 }
 .authors { font-size: 1.02rem; color: var(--ink-2); line-height: 1.9; }
 .authors span { white-space: nowrap; }
