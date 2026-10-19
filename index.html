@@ -248,7 +248,7 @@ h1 {
   text-wrap: balance;
 }
 @media (max-width: 44rem) {
-  h1 { width: 100%; margin-left: 0; }
+  h1, .links { width: 100%; margin-left: 0; }
 }
 @media (max-width: 21rem) {
   h1 { font-size: 1.7rem; }
@@ -265,7 +265,12 @@ h1 {
 .affil span { display: block; }
 .affil sup { color: var(--accent); margin-right: .25em; }
 
-.links { margin-top: 2.1rem; display: flex; gap: .55rem; justify-content: center; flex-wrap: wrap; }
+.links {
+  margin-top: 2.1rem; display: flex; gap: .55rem; justify-content: center; flex-wrap: wrap;
+  /* like the title, the buttons may use the wider measure, so all five sit in one row */
+  width: min(52rem, calc(100vw - 2.8rem));
+  margin-left: calc((100% - min(52rem, calc(100vw - 2.8rem))) / 2);
+}
 .btn {
   font-size: .9rem; font-weight: 500;
   padding: .6em 1.35em; border-radius: 999px;
@@ -352,6 +357,55 @@ figcaption b {
 @media (max-width: 44rem) {
   .stats { grid-template-columns: 1fr 1fr; row-gap: 1.6rem; }
   .stats div:nth-child(3) { padding-left: 0; border-left: none; }
+}
+
+/* ============================================================
+   film: the cover is local, and YouTube loads only on a press
+   ============================================================ */
+.film-figure { margin-top: 1.4rem; }
+.film {
+  position: relative; aspect-ratio: 16 / 9;
+  border-radius: var(--radius); overflow: hidden;
+  background: #493918;  /* the cover's own soil brown: nothing flashes in before the image or the player */
+  box-shadow: var(--shadow-s);
+  container-type: inline-size;
+  isolation: isolate;
+  transition: box-shadow .3s var(--ease-out);
+}
+.film > a, .film > iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.film-poster { display: block; color: #f2eee5; }
+.film-poster:hover { text-decoration: none; }
+.film-poster img { width: 100%; height: 100%; object-fit: cover; transition: transform .9s var(--ease-out), filter .3s ease; }
+.film-poster:focus-visible { outline: 2px solid #f2eee5; outline-offset: -6px; border-radius: inherit; }
+/* the play control sits on the cover's own text column, below the venue line */
+.film-cta {
+  position: absolute; left: 6.45%; bottom: 11%;
+  display: inline-flex; align-items: center; gap: max(.55rem, 1.1cqw);
+  font-size: max(.8rem, 1.5cqw); font-weight: 500; line-height: 1;
+}
+.film-cta-icon {
+  display: grid; place-items: center;
+  width: max(2.1rem, 4.2cqw); aspect-ratio: 1; border-radius: 50%;
+  background: #f2eee5; color: #493918;
+  box-shadow: 0 8px 22px -8px rgba(0,0,0,.55);
+  transition: transform .3s var(--ease-out);
+}
+.film-cta-icon svg { width: 42%; height: 42%; margin-left: 8%; fill: currentColor; }
+.film-cta-time { font-family: var(--mono); font-size: .84em; letter-spacing: .06em; opacity: .66; }
+/* on a small frame the control would cover the venue line: it moves to the empty corner */
+@container (max-width: 38rem) {
+  .film-cta { left: auto; right: 4.5%; bottom: 7%; }
+  .film-cta-label { display: none; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .film:hover { box-shadow: var(--shadow-m); }
+  .film-poster:hover img { transform: scale(1.012); filter: brightness(1.06); }
+  .film-poster:hover .film-cta-icon { transform: scale(1.06); }
+}
+.film-poster:active .film-cta-icon { transform: scale(.95); }
+@media (prefers-reduced-motion: reduce) {
+  .film-poster img, .film-cta-icon { transition: none; }
+  .film-poster:hover img, .film-poster:hover .film-cta-icon { transform: none; }
 }
 
 /* ============================================================
@@ -666,6 +720,7 @@ svg.plot .bb-cross { stroke: #6e6e73; opacity: .4; stroke-width: 1; }
   .chrome a.nav-link[href="#beyond"] { display: none; }
 }
 @media (max-width: 40rem) {
+  .chrome a.nav-link[href="#video"],
   .chrome a.nav-link[href="#abstract"],
   .chrome a.nav-link[href="#bibtex"],
   .chrome a.nav-link[href="crps-wls-extended.pdf"] { display: none; }
@@ -822,7 +877,7 @@ dialog.lb p {
 }
 
 @media print {
-  .chrome, .links, .copy, .lb-close, .spectra, .controls, .seg { display: none; }
+  .chrome, .links, .copy, .lb-close, .spectra, .controls, .seg, .film-cta { display: none; }
   body { background: #fff; color: #000; }
   .plate { box-shadow: none; break-inside: avoid; }
   .js .reveal { opacity: 1 !important; transform: none !important; }
@@ -834,6 +889,7 @@ dialog.lb p {
 <header class="chrome" id="chrome">
   <div class="chrome-in">
     <a class="wordmark" href="#top">CRPS&thinsp;&middot;&thinsp;WLS</a>
+    <a class="nav-link" href="#video">Video</a>
     <a class="nav-link" href="#abstract">Abstract</a>
     <a class="nav-link" href="#condition">Condition</a>
     <a class="nav-link" href="#bench">Bench</a>
@@ -877,6 +933,7 @@ dialog.lb p {
       <!-- On publication: replace this span with <a class="btn" href="https://doi.org/DOI_HERE">Paper</a> -->
       <span class="btn btn-quiet">Paper &middot; <small>to appear</small></span>
       <a class="btn" href="crps-wls-extended.pdf">Preprint &middot; <small>full proofs</small></a>
+      <a class="btn" href="#video"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.5 2.6v10.8L13.3 8z"/></svg>Video &middot; <small>3:32</small></a>
       <span class="btn btn-quiet">
         <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>Code &middot; <small>release pending</small></span>
       <a class="btn btn-ghost" href="#bibtex">BibTeX</a>
@@ -923,6 +980,29 @@ dialog.lb p {
   <div><strong data-count="57" data-prefix="+" data-suffix="%">+57%</strong><span>worst over-credit</span></div>
   <div><strong data-count="16">16</strong><span>experiments</span></div>
 </div>
+
+<section id="video">
+  <span class="eyebrow reveal">Video</span>
+  <h2 class="reveal">The paper in three and a half minutes</h2>
+  <p class="lede reveal">The problem, the mechanism, why sensor diversity matters, and the evidence,
+  in one narrated film.</p>
+
+  <figure class="film-figure wide reveal">
+    <div class="film">
+      <a class="film-poster" id="filmPoster" href="https://youtu.be/HT-BhesK4_s" target="_blank" rel="noopener"
+         data-yt="HT-BhesK4_s" aria-label="Play the film, 3 minutes 32 seconds">
+        <img src="assets/film.webp" width="1920" height="1080" alt="" loading="lazy" decoding="async">
+        <span class="film-cta" aria-hidden="true">
+          <span class="film-cta-icon"><svg viewBox="0 0 24 24"><path d="M8 5.5v13L18.5 12z"/></svg></span>
+          <span class="film-cta-label">Watch the film</span>
+          <span class="film-cta-time">3:32</span>
+        </span>
+      </a>
+    </div>
+    <figcaption>Narrated with a synthetic voice. Nothing loads from YouTube until you press play.
+    <a href="https://youtu.be/HT-BhesK4_s" target="_blank" rel="noopener">Open on YouTube&nbsp;&rsaquo;</a></figcaption>
+  </figure>
+</section>
 
 <section id="abstract">
   <span class="eyebrow reveal">Paper</span>
@@ -1475,6 +1555,25 @@ dialog.lb p {
   lb.addEventListener('click', close);
   lb.addEventListener('cancel', function (e) { e.preventDefault(); close(); });
   document.getElementById('lbClose').addEventListener('click', close);
+
+  /* the film: the cover is a link to YouTube, so it works without script.
+     With script, a press swaps the cover for the player in place, and nothing
+     is requested from YouTube before it. A modified press keeps the
+     browser's own behaviour (a new tab). */
+  var filmPoster = document.getElementById('filmPoster');
+  filmPoster.addEventListener('click', function (e) {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + filmPoster.getAttribute('data-yt') +
+            '?autoplay=1&rel=0&playsinline=1';
+    f.title = 'Manipulation-Resistant Oracles via Continuous Peer Prediction: the film';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    filmPoster.replaceWith(f);
+    f.focus();
+  });
 
   /* copy buttons */
   [].forEach.call(document.querySelectorAll('.copy'), function (btn) {
