@@ -5,7 +5,7 @@ Prediction*, accepted at MARBLE 2026, the 7th International Conference on
 Mathematical Research for Blockchain Economy, Limassol, Cyprus, 16-18
 September 2026.
 
-**[Project page](https://junhaosong.com/crps-wls/)** · **[Extended preprint, with the full proofs](https://junhaosong.com/crps-wls/crps-wls-extended.pdf)**
+**[Project page](https://junhaosong.com/crps-wls/)** · **[Extended version on arXiv, with the full proofs](https://arxiv.org/abs/2610.35888)**
 
 ![Mechanism overview](assets/teaser.png)
 
@@ -125,18 +125,22 @@ The scripts expect `SCRATCH` to point at a large scratch directory; see
 
 ```bibtex
 @inproceedings{song2026manipulation,
-  author    = {Song, Junhao and Rolandi, Tanis and Novocky, Adam and
-               Biffis, Enrico and Knottenbelt, William},
-  title     = {Manipulation-Resistant Oracles via Continuous Peer Prediction},
-  booktitle = {Mathematical Research for Blockchain Economy (MARBLE 2026)},
-  publisher = {Springer},
-  year      = {2026},
-  note      = {To appear}
+  author        = {Song, Junhao and Rolandi, Tanis and Novocky, Adam and
+                   Biffis, Enrico and Knottenbelt, William},
+  title         = {Manipulation-Resistant Oracles via Continuous Peer
+                   Prediction},
+  booktitle     = {Mathematical Research for Blockchain Economy (MARBLE 2026)},
+  publisher     = {Springer},
+  year          = {2026},
+  note          = {To appear},
+  eprint        = {2610.35888},
+  archivePrefix = {arXiv},
+  primaryClass  = {stat.AP}
 }
 ```
 
-The DOI, page numbers and final series details will be added here once the
-proceedings are published.
+The DOI, page numbers and final series details of the proceedings will be added
+here once they are published.
 
 ## License
 

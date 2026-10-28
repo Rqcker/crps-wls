@@ -41,7 +41,12 @@ preferred-citation:
     country: CY
     date-start: 2026-09-16
     date-end: 2026-09-18
-  notes: To appear. DOI and page numbers will be added once the proceedings are published.
+  url: https://arxiv.org/abs/2610.35888
+  identifiers:
+    - type: doi
+      value: 10.48550/arXiv.2610.35888
+      description: The extended version with the full proofs, arXiv:2610.35888
+  notes: To appear. The DOI and page numbers of the proceedings will be added once they are published.
   authors:
     - family-names: Song
       given-names: Junhao
