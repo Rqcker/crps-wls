@@ -62,7 +62,7 @@ for frac in (0.20, 0.50, 1.00):
     s = frac * THETA_MED
     p_det = float(1.0 - norm.cdf(z - s / np.sqrt(v_s0)))
     G = CONV * kappa * s
-    M = G / (p_det - FAR)                 # eq:stake; deterrence uses power above size
+    M = G / (p_det - FAR)                 # Eq. (12); deterrence uses power above size
     honest = CONV * THETA_MED
     manip_net = honest + G - p_det * M    # manipulator: keeps gain, slashed at P_det
     honest_net = honest - FAR * M         # honest source: slashed at the false-alarm rate

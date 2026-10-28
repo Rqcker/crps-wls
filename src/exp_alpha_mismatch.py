@@ -10,10 +10,11 @@ Two error models:
   random        per-sensor Delta_i ~ N(0, e * mean(alpha)), non-proportional
   proportional  alpha_tilde = (1+e) * alpha, a uniform rescaling
 
-The theory (Section: Strict Truthfulness) predicts bias = s*(c_theta . alpha),
-linear in the error and exactly zero for a proportional rescaling because the
-design column space [1, alpha] = [1, c*alpha] is unchanged. The baseline
-aggregators over-credit by +53% to +57% at full manipulation, so the WLS bias
+The theory (Section 4.2 and Appendix F) predicts bias = s*(c_theta . alpha), where
+c_theta is the theta-row of the WLS solve built from alpha_tilde. It is linear in
+the error and exactly zero for a proportional rescaling because the design column
+space [1, alpha] = [1, c*alpha] is unchanged. The baseline
+aggregators over-credit by +31% to +57% at full manipulation, so the WLS bias
 under heavy alpha drift stays far below the manipulation bias it removes.
 
 Output: src/data/exp_alpha_mismatch_data.csv and figures/fig15_alpha_mismatch.pdf.

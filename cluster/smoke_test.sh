@@ -14,6 +14,8 @@ PROJ=${PROJ:-$PWD}
 export TMPDIR=$SCRATCH/tmp XDG_CACHE_HOME=$SCRATCH/.cache TORCH_HOME=$SCRATCH/.cache/torch
 export OMP_NUM_THREADS=6
 export CRPS_NSUB=1500 CRPS_FOLDS=2 CRPS_EPOCHS=4 CRPS_PRE=2
+# Write the smoke-run parameters to scratch, not over the measured ones.
+export CRPS_OUT=$SCRATCH/smoke_params.json
 
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate crps-wls

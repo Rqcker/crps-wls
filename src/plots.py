@@ -5,9 +5,12 @@ Style:  all figures share src/plot_style.py (one visual language across the
         paper): muted seaborn-deep palette, one marker per series, light y-grid,
         framed legends. A method keeps the same colour/marker in every figure.
 
+Figure numbers in this module are file numbers (fig2 ... fig15), not the
+paper's figure numbers; README.md maps one to the other.
+
 Note on units:
-  Exp1 (Fig 2): Y = expected peer CRPS in g/kg (absolute).
-  Exp2--Exp4 (Fig 3--5, 12): Y = mean absolute relative error / signed bias (%).
+  Exp1 (fig2): Y = mean peer CRPS under the mechanism score, Eq. (5), in g/kg.
+  Exp2--Exp4 (fig3--fig5, fig12): Y = mean absolute relative error / signed bias (%).
   X-axis for Exp2/Exp4: source manipulation as fraction of true theta (%).
 
 Fast restyle without re-running experiments:
@@ -98,7 +101,7 @@ def plot_exp2(df: pd.DataFrame) -> None:
 
 def plot_exp3(df: pd.DataFrame) -> None:
     """Fig 4: MARE vs alpha spread on log-log axes. As spread -> 0 the error
-    diverges as O(1/spread); the dashed line is the theoretical slope."""
+    diverges as O(1/spread); the dotted line is the theoretical slope."""
     fig, ax = plt.subplots(figsize=(ps.W, ps.H))
     s = df.sort_values("alpha_spread")
     se = s["std"].values / np.sqrt(_N_SEEDS)
@@ -229,7 +232,6 @@ def plot_exp5(df: pd.DataFrame) -> None:
     ax2.set_ylim(bottom=0)
     ax2.set_ylabel(r"Min. stake $M^\star/G$", color=c_stk)
     ax2.tick_params(axis="y", labelcolor=c_stk)
-    # inline number at 20% manipulation
     h1, l1 = ax1.get_legend_handles_labels()
     h2, l2 = ax2.get_legend_handles_labels()
     ps.legend(ax1, handles=h1 + h2, labels=l1 + l2, loc="upper center")

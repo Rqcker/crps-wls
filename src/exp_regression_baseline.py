@@ -4,7 +4,8 @@ Regression baselines that model the source shift as a nuisance parameter.
 The WLS estimator jointly fits the true value theta and the manipulation s on the
 design [1 | alpha]. To isolate the estimator from the incentive layer, and to test
 robustness to the loss function, we fit the same (theta, s) model by weighted least
-squares (L2), a Huber loss, and an L1 loss, and measure the credit bias under
+squares (L2), a Huber loss, and an L1-type loss (scipy's soft_l1, a smooth
+approximation of L1), and measure the credit bias under
 manipulation. All three model the common shift, so all three are manipulation
 invariant; the invariance is a property of the estimator structure, not of the loss
 or the payments. The naive aggregators of the main baselines table do not model the

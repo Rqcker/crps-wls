@@ -1,5 +1,5 @@
 """Outlier-sensor ablation: how much of the detection/deterrence rests on the
-single near-useless CNN-LSTM-ECA sensor (alpha=0.004, sigma=17.98)?
+single least informative CNN-LSTM-ECA sensor (alpha=0.004, sigma=17.98)?
 
 Reuses the paper's own wls_covariance and manipulation_detection_power so the
 numbers match Section 5. Compares the full eight-sensor ensemble against the
@@ -26,7 +26,7 @@ def summarize(agents, label):
           f"(theta_med={THETA_MED})")
     for f in FRACS:
         p = manipulation_detection_power(agents, f * THETA_MED, FAR)
-        mult = f"{1.0 / p:.1f}x" if p > 1e-9 else "inf"
+        mult = f"{1.0 / (p - FAR):.1f}x" if p > FAR else "inf"
         print(f"  {int(f*100):>3}% manip (s={f*THETA_MED:5.1f}): "
               f"P_detect={p*100:5.1f}%   stake M*/G={mult}")
     return sd

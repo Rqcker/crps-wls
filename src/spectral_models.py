@@ -2,28 +2,34 @@
 Eight-model SOC benchmark on real LUCAS vis-NIR spectra, and data-driven
 measurement of sensor noise sigma_i and manipulation sensitivity alpha_i.
 
-Models (faithful 1D reimplementations; cited):
+Models (compact 1D implementations; the deep models are simplified variants of
+the cited architectures, not reproductions of them):
   Classical: Ridge (linear), Random Forest, 1D-CNN
-  SOTA:      ViT-1D (spectral transformer),
-             SSL-SoilNet  -- masked-reconstruction pretrain + transformer head
-                             (Hu et al., IEEE TGRS 2024; arXiv:2308.03586)
-             CNN-LSTM-ECA -- CNN + LSTM + efficient channel attention
-                             (Wang et al., Eur. J. Soil Sci. 2025)
-             Spectral-Swin -- shifted-window 1D transformer (2025)
-             1DCNN-SAE    -- stacked-autoencoder features + 1D-CNN (2024)
+  Deep:      ViT-1D        -- patch transformer with a class token
+             SSL-SoilNet   -- the same transformer, pretrained to reconstruct
+                              spectral patches (loss on a random 30% of the
+                              patches), then fine-tuned; after Kakhani et al.,
+                              IEEE TGRS 2024 (arXiv:2308.03586)
+             CNN-LSTM-ECA  -- CNN + bidirectional LSTM + efficient channel
+                              attention; after Wang et al., Eur. J. Soil Sci. 2025
+             Spectral-Swin -- patch transformer with mean pooling and global
+                              attention, standing in for the Swin model of
+                              Jin et al., Geoderma 2023
+             1DCNN-SAE     -- MLP autoencoder features with a regression head,
+                              after stacked autoencoders (Vincent et al., JMLR 2010)
 
 Setting: LUCAS mineral soils (OC <= 100 g/kg), the carbon-credit deployment
-domain where vis-NIR SOC prediction is accurate. Full-set results are produced
-separately as a robustness appendix.
+domain where vis-NIR SOC prediction is accurate.
 
-Wetting model (approach A, fuller): wetting darkens the whole spectrum and
-deepens the O-H water bands,
+Wetting model: wetting darkens the whole spectrum and deepens the O-H water
+bands,
     R'(lambda) = R(lambda) * exp(-w * (c_broad + k_water(lambda))),
 with k_water peaked at 1450 and 1940 nm. alpha_i = d(OC_pred_i)/dw at small w.
 
-Outputs measured_params_cluster.json (sigma_i, alpha_i, R^2 benchmark).
+Outputs measured_params_cluster.json (sigma_i, alpha_i, R^2 benchmark), or the
+path in CRPS_OUT.
 
-Run on the cluster (a30 GPU) via slurm; see cluster/train_models.sh.
+Run on a GPU cluster with Slurm; see cluster/train_models.sh.
 """
 
 from __future__ import annotations
@@ -36,9 +42,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-# Training budget (overridable via env for smoke tests)
-EPOCHS = int(os.environ.get("CRPS_EPOCHS", "40"))
-PRE_EPOCHS = int(os.environ.get("CRPS_PRE", "15"))
+# Training budget: the defaults match cluster/train_models.sh; the env
+# variables override them (the smoke test uses a smaller budget).
+EPOCHS = int(os.environ.get("CRPS_EPOCHS", "30"))
+PRE_EPOCHS = int(os.environ.get("CRPS_PRE", "8"))
 
 _ROOT = Path(__file__).parent.parent
 _OSSL = _ROOT / "ossl_data"
@@ -310,7 +317,7 @@ def run(n_folds: int = 5, n_sub: int = 0) -> dict:
         "alpha_raw_gkg_per_w": {m: round(raw[m], 2) for m in MODELS},
         "rmse_folds": rmse, "r2_folds": r2, "sens_folds": sens,
     }
-    out = _OSSL / "measured_params_cluster.json"
+    out = Path(os.environ.get("CRPS_OUT", _OSSL / "measured_params_cluster.json"))
     out.write_text(json.dumps(res, indent=2))
     print("\n=== SOC benchmark + measured params (mineral LUCAS) ===", flush=True)
     print(f"{'model':14s}{'R2':>7}{'RMSE(g/kg)':>12}{'alpha':>8}")

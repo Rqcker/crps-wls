@@ -14,7 +14,7 @@ Design matrix A = [[1, alpha_1], ..., [1, alpha_N]]  (shape N x 2)
 WLS solution: [theta_hat, s_hat] = (A^T W A)^{-1} A^T W mu_vec
 
 When all alpha_i are equal (diversity fails), A is rank-deficient and theta
-and s cannot be separated -- this is the necessity direction of Theorem 2.
+and s cannot be separated -- this is the necessity direction of Theorem 1.
 """
 
 import numpy as np
@@ -125,14 +125,11 @@ def aggregate_weatherxm_cqc(
 
         score_i = max(0, 1 - |mu_i - median(mu)| / (k * MAD))
 
-    where k=2.0 is the standard 2-MAD window from robust statistics.
+    where k=2.0 is a common 2-MAD window from robust statistics.
     The aggregated estimate is the score-weighted mean.  This is a heuristic
     that partially down-weights manipulated agents but does NOT separate theta
     from s, so the estimate grows with source manipulation.
 
-    Note: WeatherXM's CQC (Comparative Quality Check) is planned for QoD v1.3
-    and is not yet deployed as of June 2026.  This baseline represents the
-    spirit of CQC-style peer comparison as described in their public roadmap.
     Reference: github.com/weatherxm-network/qod
     """
     mus = np.array([mu for mu, _ in reports])

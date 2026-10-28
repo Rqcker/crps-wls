@@ -26,11 +26,11 @@ if ! conda env list | grep -q "envs/crps-wls"; then
 fi
 conda activate crps-wls
 
-pip install --cache-dir "$PIP_CACHE_DIR" numpy pandas scipy scikit-learn matplotlib torch
+pip install --cache-dir "$PIP_CACHE_DIR" -r "$PROJ/requirements.txt" torch
 
 # OSSL vis-NIR data (public bucket)
 cd "$PROJ/ossl_data"
-for f in ossl_visnir_L0_v1.2.csv.gz ossl_soillab_L1_v1.2.csv.gz ossl_soilsite_L0_v1.2.csv.gz; do
+for f in ossl_visnir_L0_v1.2.csv.gz ossl_soillab_L1_v1.2.csv.gz; do
   [ -f "$f" ] || curl -sS -o "$f" "https://storage.googleapis.com/soilspec4gg-public/$f"
 done
 ls -la "$PROJ/ossl_data"

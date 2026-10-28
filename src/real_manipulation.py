@@ -18,7 +18,7 @@ enough to de-bias the real, generally nonlinear, model responses to a real
 spectral perturbation. The WLS bias is not zero by construction here: it is zero
 only if the real responses follow mu_i = theta + alpha_i * s closely enough.
 
-Run on the cluster (a30) via cluster/real_manip.sh.
+Run on a GPU cluster via cluster/real_manip.sh.
 """
 
 from __future__ import annotations

@@ -1,7 +1,7 @@
 """
 Mean-truthfulness under a misspecified noise covariance.
 
-Claim (Section: Strict Truthfulness, "Correlated noise"): strict
+Claim (Appendix C, Lemma 4): strict
 propriety of the FULL report needs the Sigma-dependent inflation
 sigma_i^2 + sigma_j^2 - 2 Sigma_ij, but the reported MEAN is pinned to the
 predictive mean Y_i under ANY fixed positive inflation, because the Gaussian
@@ -12,7 +12,7 @@ or misspecified; only the auxiliary variance elicitation degrades.
 This check confirms it numerically. Under equicorrelated noise with correlation
 rho, we score each agent's reported mean with the WRONG independent inflation
 sigma_i^2 + sigma_j^2 (ignoring Sigma_ij) and locate the agent's expected
-peer-CRPS minimizer over a grid of mean deviations. The minimizer is the
+peer-CRPS minimiser over a grid of mean deviations. The minimiser is the
 truthful Y_i (deviation 0) for every agent and every rho.
 
 Output: src/data/exp_misspec_data.csv.
@@ -22,6 +22,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.integrate import trapezoid
 from scipy.stats import norm
 
 from src.agents import AGENTS
@@ -36,7 +37,7 @@ def _expected_crps(delta: float, omega: float, tau: float) -> float:
     y = tau * _Z
     z = (y - delta) / omega
     crps = omega * (2.0 * norm.pdf(z) + z * (2.0 * norm.cdf(z) - 1.0) - 1.0 / np.sqrt(np.pi))
-    return float(np.trapz(crps * _W, _Z))
+    return float(trapezoid(crps * _W, _Z))
 
 
 def run_exp_misspec(rhos=(0.0, 0.3, 0.6, 0.9)) -> pd.DataFrame:

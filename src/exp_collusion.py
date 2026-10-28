@@ -12,11 +12,11 @@ decreasing order of credit influence c_theta,i (the strongest attackers first):
   detection     P(s_hat > delta) at a 5% false-alarm rate, from SD(s_hat)
   peer penalty  mean rise in the colluders' mechanism peer-CRPS vs honest
 
-The point is the necessity boundary of Theorem 2. Only the full coalition (k=N)
+The point is the necessity boundary of Theorem 1. Only the full coalition (k=N)
 is a pure common shift along the all-ones direction: it inflates the credit fully,
 leaves s_hat = 0 (undetected, because c_s . 1 = 0), and incurs zero peer-CRPS
 penalty (translation equivariance leaves every pairwise score unchanged). Any
-partial coalition (k<N) is either detected through s_hat or penalized through the
+partial coalition (k<N) is either detected through s_hat or penalised through the
 peer score, or both. Collusion that escapes both is exactly the uniform-shift mode
 the diversity condition rules out.
 
@@ -41,7 +41,7 @@ INFLATE_FRAC = 0.20    # per-colluder common bias as a fraction of theta
 
 
 def _mean_peer_crps(reports, idx):
-    """Mean mechanism peer-CRPS of agent idx against all peers (Eq. 4 score)."""
+    """Mean mechanism peer-CRPS of agent idx against all peers (Eq. (5) score)."""
     mu_i, sig_i = reports[idx]
     n = len(reports)
     return float(np.mean([
@@ -58,9 +58,9 @@ def run_exp_collusion(oc: np.ndarray | None = None) -> pd.DataFrame:
     c_theta, c_s = wls_coefficients(AGENTS)
     cov = wls_covariance(AGENTS)
     sd_shat = float(np.sqrt(cov[1, 1]))
-    # The mechanism penalizes P(|s_hat|), so detection is two-sided: reject when
-    # |s_hat| > delta with delta set to a 5% two-sided false-alarm rate.
-    delta = norm.ppf(0.975) * sd_shat
+    # The penalty is one-sided (P(z) = 0 for z <= 0), so detection is too: reject
+    # when s_hat > delta, with delta set to a 5% false-alarm rate.
+    delta = norm.ppf(0.95) * sd_shat
 
     # Strongest attackers first: largest credit influence c_theta,i.
     order = list(np.argsort(-c_theta))
@@ -75,11 +75,8 @@ def run_exp_collusion(oc: np.ndarray | None = None) -> pd.DataFrame:
         # (theta_hat - theta)/theta = INFLATE_FRAC * sum_{i in C} c_theta,i.
         overcredit = INFLATE_FRAC * float(sum(c_theta[i] for i in coalition))
         shat_mean = INFLATE_FRAC * theta_med * float(sum(c_s[i] for i in coalition))
-        # Two-sided detection power P(|s_hat| > delta) at this mean shift.
-        detect_power = float(
-            norm.cdf((-delta - shat_mean) / sd_shat)
-            + 1.0 - norm.cdf((delta - shat_mean) / sd_shat)
-        )
+        # One-sided detection power P(s_hat > delta) at this mean shift.
+        detect_power = float(1.0 - norm.cdf((delta - shat_mean) / sd_shat))
 
         # Simulated peer-CRPS penalty paid by the colluders.
         penalties = []

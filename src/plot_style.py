@@ -1,10 +1,8 @@
 """Unified figure style for all MARBLE 2026 figures: single source of truth.
 
-Every figure imports this module so the whole paper shares one visual language.
-The style follows the clean line-chart aesthetic of Qiguang Chen's figures
-(e.g. fig:learning panel (c) in arXiv:2601.06002, fig:decay_curve in
-arXiv:2605.16508): muted seaborn-deep palette, one distinct marker per series,
-a light y-only grid, framed legends, and restrained inline annotations.
+Every figure imports this module so the whole paper shares one visual language:
+a muted seaborn-deep palette, one distinct marker per series, a light y-only
+grid, framed legends, and restrained inline annotations.
 
 Do not hard-code colours or markers in the plot functions. Use:
   - LINE charts:  plot_style.line(ax, x, y, i, label=...)

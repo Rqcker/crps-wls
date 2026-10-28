@@ -31,7 +31,7 @@ class Agent:
 #             organic carbon from real LUCAS vis-NIR spectra (37,280 mineral-soil
 #             samples, OC <= 100 g/kg; OSSL compilation).
 #   alpha_i = each model's SOC-prediction sensitivity to a soil-moisture
-#             perturbation of the spectrum, normalized so the largest is 1.0.
+#             perturbation of the spectrum, normalised so the largest is 1.0.
 # Source: src/spectral_models.py, run on a university GPU cluster.
 # The measured alpha_i span 0.004 to 1.000: the SOC Sensor Diversity Condition
 # holds empirically, it is not assumed. (alpha is stored as |sensitivity|; the
@@ -50,25 +50,10 @@ AGENTS: list[Agent] = [
 ]
 
 # Uniform-sensitivity counterpart: same measured sigma_i, all alpha_i = 1.0
-# (diversity condition fails). Used to demonstrate Theorem 2 necessity.
+# (diversity condition fails). Used to demonstrate Theorem 1 necessity.
 AGENTS_UNIFORM: list[Agent] = [
     Agent(name=a.name + "-U", sigma=a.sigma, alpha=1.0) for a in AGENTS
 ]
-
-
-def get_report(agent: Agent, theta: float, s: float) -> tuple[float, float]:
-    """Return honest noiseless report (mu_i, sigma_i) for agent under source action s.
-
-    Used in Exp1 (equilibrium verification, clean theoretical setting).
-    """
-    return (theta + agent.alpha * s, agent.sigma)
-
-
-def get_all_reports(
-    agents: list[Agent], theta: float, s: float
-) -> list[tuple[float, float]]:
-    """Return honest noiseless reports for all agents. Used in Exp1."""
-    return [get_report(a, theta, s) for a in agents]
 
 
 def get_noisy_reports(
@@ -124,7 +109,7 @@ def standardized_noise(
 
     Distributions (all normalised to mean 0 and variance 1):
       "gaussian"   -- standard normal (baseline)
-      "student_t"  -- Student-t, df=3 (heavy tails, kurtosis undefined>finite)
+      "student_t"  -- Student-t, df=3 (heavy tails: finite variance, infinite kurtosis)
       "lognormal"  -- shifted lognormal (right-skewed)
       "uniform"    -- uniform (light tails, bounded)
 

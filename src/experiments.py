@@ -1,5 +1,8 @@
 """
-Experiments Exp1--Exp5 for the MARBLE 2026 paper.
+Experiments for the MARBLE 2026 paper: Exp1--Exp11 and the correlated-noise
+check (exp_corr). run_all() also runs the four stress tests that live in their
+own modules (exp_collusion, exp_misspec, exp_alpha_mismatch,
+exp_regression_baseline), sixteen experiments in all.
 
 All experiments draw ground-truth theta values from the LUCAS 2018 topsoil OC
 distribution (17,231 mineral samples with OC <= 100 g/kg, 0-20 cm depth).
@@ -8,10 +11,8 @@ Model:
   Agent i observes y_i = theta + alpha_i * s + eps_i, eps_i ~ N(0, sigma_i^2).
   Agent reports honestly: N(y_i, sigma_i^2).
 
-Exp1 uses noiseless reports (analytical equilibrium verification).
-Exp2--Exp4 use stochastic reports (eps_i drawn from N(0, sigma_i^2)).
-Exp5 is fully analytical (WLS covariance + LUCAS median theta).
-Each experiment returns a DataFrame with a 'std' column for confidence bands.
+Exp1 (equilibrium verification) and Exp5 (stake economics) are analytical; the
+others aggregate stochastic reports. Each experiment returns a DataFrame.
 
 Random seed: RNG_SEED = 42 (fixed for reproducibility).
 """
@@ -61,7 +62,7 @@ FIXED_S_FRAC  = 0.2     # fixed manipulation fraction for Exp3 (20%)
 
 def run_exp1(oc: np.ndarray | None = None) -> pd.DataFrame:
     """Verify the strict best response of Proposition 1 at the honest-source
-    equilibrium: under the mechanism score (paper Eq. 4), truthful reporting
+    equilibrium: under the mechanism score (paper Eq. (5)), truthful reporting
     uniquely maximises an agent's payment.
 
     At the equilibrium the source plays s=0, so every peer reports mu_j=theta and
@@ -227,7 +228,7 @@ def run_exp4(oc: np.ndarray | None = None) -> pd.DataFrame:
     fracs = np.linspace(0.0, S_FRAC_MAX, N_S)
 
     def wls_noisy_alpha(rpts, agts, alpha_noise_frac=0.2, n_realizations=10):
-        """WLS averaged over multiple alpha estimation noise realizations.
+        """WLS averaged over multiple alpha estimation noise realisations.
 
         Models the case where alpha_i are estimated with ±20% error.
         Averages theta_hat over 10 independent noise draws to give
@@ -296,21 +297,19 @@ def run_exp4(oc: np.ndarray | None = None) -> pd.DataFrame:
 def run_exp5(oc: np.ndarray | None = None) -> pd.DataFrame:
     """Minimum stake economics for on-chain manipulation deterrence.
 
-    Blockchain context: source deposits stake T before each measurement round.
-    If WLS detects manipulation (s_hat > detection threshold delta), the stake
-    is slashed proportionally to the detected manipulation.
+    Blockchain context: the source deposits a stake T before each measurement
+    round, and the whole stake is slashed whenever s_hat exceeds the detection
+    threshold delta, whether or not the source manipulated.  An honest source
+    (frac = 0) is still slashed with the false-alarm probability a = FAR;
+    manipulating by frac raises that probability to P_detect(frac, theta).
+    Cheating is unprofitable when the *incremental* expected slashing covers
+    the per-round gain G from manipulating:
 
-    The source posts collateral T and is slashed whenever s_hat > delta,
-    whether or not it manipulated.  An honest source (frac = 0) is still
-    slashed with the false-alarm probability a = FAR; manipulating by frac
-    raises that probability to P_detect(frac, theta).  Cheating is unprofitable
-    when the gain is dominated by the *incremental* expected slashing:
+        (P_detect(frac, theta) - a) * T >= G
 
-        (P_detect(frac, theta) - a) * T >= frac * theta * credit_price
+    so the minimum stake-to-gain multiplier M*(frac) = T* / G is:
 
-    The minimum stake-to-gain multiplier M*(frac) = T* / (frac * theta * P) is:
-
-        M*(frac) = 1 / (E_theta[P_detect(frac, theta)] - a)
+        M*(frac) = 1 / (P_detect(frac, theta) - a)
 
     where P_detect(frac, theta) = P(s_hat > delta | s = frac * theta) and
     delta is the (1 - a)-quantile of s_hat under honest behaviour (a = 5% FAR).
@@ -323,7 +322,7 @@ def run_exp5(oc: np.ndarray | None = None) -> pd.DataFrame:
       "Uniform":  AGENTS_UNIFORM (all alpha_i = 1.0) -- rank-deficient,
                   P_detect = 0, M* = infinity for any frac > 0.
 
-    The Uniform result is the blockchain-economics corollary of Theorem 2
+    The Uniform result is the blockchain-economics corollary of Theorem 1
     necessity: without sensor diversity, no finite stake can deter manipulation.
 
     Detection power is evaluated at theta = median(LUCAS mineral) = 19.9 g/kg,
@@ -532,10 +531,11 @@ def run_exp8(oc: np.ndarray | None = None, fracs=(0.5, 1.0)) -> pd.DataFrame:
     a paired one-sided t-test and a one-sided Wilcoxon signed-rank test
     (alpha = 5%), mirroring standard reporting practice.
 
-    Two levels are reported for an honest picture: frac=0.5 sits near the
-    efficiency/robustness crossover (WLS ties the precision-weighted Boomitra
-    baseline), while frac=1.0 is the high-manipulation regime the mechanism
-    targets (WLS dominates all baselines).
+    Two levels are reported for an honest picture: at frac=0.5 the
+    precision-weighted baselines are still more accurate than WLS (the
+    efficiency cost of robustness), while frac=1.0 is the high-manipulation
+    regime the mechanism targets, where WLS is significantly better than six of
+    the seven baselines.
 
     Returns DataFrame: method, frac, mare_mean, mare_std, t_p, wilcoxon_p,
     significant.
@@ -662,13 +662,16 @@ def run_exp9() -> pd.DataFrame:
 # ---------------------------------------------------------------------------
 
 CALIB_ERRORS = [0.0, 0.05, 0.10, 0.20, 0.30, 0.50]
+N_CAL = 20   # fixed calibration draws averaged within each seed
 
 
 def run_exp10(oc: np.ndarray | None = None) -> pd.DataFrame:
     """Degrade the mechanism's knowledge of sigma_i and alpha_i and measure MARE.
 
     The mechanism uses calibration estimates that differ from the true values
-    by a multiplicative error drawn uniformly from [1-e, 1+e].  Two sweeps:
+    by a multiplicative error drawn uniformly from [1-e, 1+e] for each agent.
+    A draw stays fixed over all rounds, like a real calibration, and each seed
+    averages N_CAL such draws.  Two sweeps:
       param="sigma": only sigma_i are mis-estimated (affects WLS weights)
       param="alpha": only alpha_i are mis-estimated (affects source separation)
     Manipulation is fixed at frac=0.5.  This tests the perfect-calibration
@@ -687,29 +690,33 @@ def run_exp10(oc: np.ndarray | None = None) -> pd.DataFrame:
             seed_mares = []
             for seed in range(N_SEEDS):
                 rng = np.random.default_rng(RNG_SEED + seed)
+                # The mechanism's mis-calibrated views of the agents, drawn from
+                # their own stream so the reports match the err=0 run.
+                cal = np.random.default_rng(RNG_SEED + 1000 + seed).uniform(
+                    1 - err, 1 + err, (N_CAL, len(AGENTS)))
+                views = [
+                    [
+                        Agent(
+                            name=a.name,
+                            sigma=a.sigma * (c if param == "sigma" else 1.0),
+                            alpha=max(1e-3, a.alpha * (c if param == "alpha" else 1.0)),
+                        )
+                        for a, c in zip(AGENTS, row)
+                    ]
+                    for row in cal
+                ]
                 thetas = sample_theta(oc, N_THETA, rng)
                 rel_errors = []
                 for theta in thetas:
                     reports = get_noisy_reports(AGENTS, theta, frac * theta, rng)
-                    # Mechanism's mis-calibrated view of the agents
-                    if err == 0.0:
-                        mis_agents = AGENTS
-                    else:
-                        mis_agents = [
-                            Agent(
-                                name=a.name,
-                                sigma=a.sigma * (rng.uniform(1 - err, 1 + err)
-                                                 if param == "sigma" else 1.0),
-                                alpha=max(1e-3, a.alpha * (rng.uniform(1 - err, 1 + err)
-                                                           if param == "alpha" else 1.0)),
-                            )
-                            for a in AGENTS
-                        ]
-                    try:
-                        th = estimate_theta_s(reports, mis_agents)[0]
-                    except np.linalg.LinAlgError:
-                        th = aggregate_weighted(reports)
-                    rel_errors.append(abs(th - theta) / max(theta, 1e-6))
+                    for mis_agents in views:
+                        # The WLS weights use the mechanism's calibrated sigma_i.
+                        weighted = [(mu, a.sigma) for (mu, _), a in zip(reports, mis_agents)]
+                        try:
+                            th = estimate_theta_s(weighted, mis_agents)[0]
+                        except np.linalg.LinAlgError:
+                            th = aggregate_weighted(weighted)
+                        rel_errors.append(abs(th - theta) / max(theta, 1e-6))
                 seed_mares.append(float(np.mean(rel_errors)))
             rows.append({
                 "param":     param,
@@ -770,7 +777,7 @@ def run_exp11(oc: np.ndarray | None = None) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------------------
-# Exp12 — Robustness to correlated sensor noise
+# exp_corr — Robustness to correlated sensor noise
 # ---------------------------------------------------------------------------
 
 RHO_GRID = [0.0, 0.3, 0.6, 0.9]
@@ -786,21 +793,18 @@ def run_exp_corr(oc: np.ndarray | None = None) -> pd.DataFrame:
     For each rho in RHO_GRID and each manipulation fraction, reports:
       mare       -- mean absolute relative error of diagonal WLS
       std        -- std across N_SEEDS seeds
-      p_detect   -- detection power at frac=0.5, theta=median, 5% FAR
-                   (reported separately at end of each rho block)
 
-    Expected: MARE is flat in frac for every rho (manipulation invariance holds).
-    Noise floor rises with rho. Detection power falls with rho.
+    Expected: MARE is flat in frac for every rho (manipulation invariance holds),
+    and the noise floor rises with rho. Detection power under correlation is
+    computed in closed form by src/exp_corr_detection.py: it rises with rho,
+    because s_hat is a contrast that cancels the common noise component.
 
     Returns DataFrame: rho, frac, mare, std.
     """
     if oc is None:
         oc = load_oc()
-    from scipy.stats import norm as _norm_local
-    from src.source import wls_covariance, manipulation_detection_power
 
     fracs = np.linspace(0.0, S_FRAC_MAX, N_S)
-    theta_median = float(np.median(oc))
 
     rows = []
     for rho in RHO_GRID:
