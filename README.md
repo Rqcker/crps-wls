@@ -132,7 +132,6 @@ The scripts expect `SCRATCH` to point at a large scratch directory; see
   booktitle     = {Mathematical Research for Blockchain Economy (MARBLE 2026)},
   publisher     = {Springer},
   year          = {2026},
-  note          = {To appear},
   eprint        = {2610.35888},
   archivePrefix = {arXiv},
   primaryClass  = {stat.AP}
