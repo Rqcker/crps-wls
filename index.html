@@ -934,8 +934,8 @@ dialog.lb p {
       <span class="btn btn-quiet">Paper &middot; <small>to appear</small></span>
       <a class="btn" href="https://arxiv.org/abs/2610.35888">arXiv &middot; <small>full proofs</small></a>
       <a class="btn" href="#video"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.5 2.6v10.8L13.3 8z"/></svg>Video &middot; <small>3:32</small></a>
-      <span class="btn btn-quiet">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>Code &middot; <small>release pending</small></span>
+      <a class="btn" href="https://github.com/Rqcker/crps-wls">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.34c-2.23.48-2.7-1.07-2.7-1.07-.36-.93-.89-1.18-.89-1.18-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.67.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0z"/></svg>Code</a>
       <a class="btn btn-ghost" href="#bibtex">BibTeX</a>
     </nav>
   </div>
@@ -1008,23 +1008,22 @@ dialog.lb p {
   <h2 class="reveal">Abstract</h2>
   <p class="abstract reveal">Blockchain oracle networks, including decentralised physical infrastructure
   networks (DePINs), report physical measurements from a source that can manipulate the underlying
-  process. A carbon project operator, for example, can dry the soil to raise its apparent soil
-  organic carbon (SOC) and earn credit for carbon it never stored. Existing peer prediction
-  mechanisms cover discrete signals under a strategic source, or continuous probabilistic reports
-  under an honest source, but not continuous reports under a strategic source. We close this gap
-  for Gaussian reports with continuous ranked probability score (CRPS) peer scoring that makes
-  truthful reporting a strict equilibrium under a flat prior. Our main result is an
-  if-and-only-if characterisation: report-based rules identify and deter source manipulation
-  precisely when the sensors are diverse (when their types respond differently to the same
-  manipulation). When diversity fails, no report-based mechanism can deter the source, whatever
-  its scoring or penalty. A uniform shift of every report mimics a genuine rise in SOC and, by
-  CRPS translation equivariance, leaves every peer score unchanged. With eight SOC models
-  calibrated on 37,280 real European soil spectra, baseline aggregators over-credit by up to 57%
-  under manipulation, whereas the mechanism stays unbiased and sizes a closed-form on-chain stake.
-  As a deterministic function of the reports, it runs on a DePIN as a smart contract that issues
-  credits and slashes the source stake without a trusted aggregator. The credited value still
-  carries the sensor's calibration error, so the guarantee is manipulation invariance rather than
-  absolute accuracy.</p>
+  process. A carbon project operator, for example, can dry a site before measurement and be paid
+  for soil organic carbon (SOC) that was never stored. Peer prediction covers discrete signals
+  under a strategic source, or continuous reports under an honest source, but not both at once.
+  We close that gap for Gaussian reports. Strict propriety of the continuous ranked probability
+  score (CRPS) settles the reporting stage alone. Our result concerns the source stage. A
+  report-only settlement rule whose honest-source payoff is non-decreasing in the true value
+  identifies and deters source manipulation if and only if the sensors respond to that
+  manipulation by different amounts. When they respond identically, manipulation is
+  observationally equivalent to a genuine rise in SOC, and CRPS translation equivariance leaves
+  every peer score unchanged, so no such rule deters the source. Necessity follows from invariance
+  rather than from the signal enumeration available in the discrete case. The source-stage
+  estimator is ordinary weighted least squares, and the contribution is the characterisation
+  around it. With eight calibrated SOC models on 37,280 real European soil spectra, shift-naive
+  aggregators over-credit by up to 57% under a calibrated moisture perturbation while the joint
+  estimate stays near-unbiased. The guarantee holds on the equilibrium path for non-colluding
+  reporters and inherits the models' own calibration error.</p>
 
   <div class="theorem reveal">
     <p class="thm-head">Theorem &middot; Source deterrence if and only if sensor diversity</p>
@@ -1102,27 +1101,62 @@ dialog.lb p {
   <figure class="plate reveal">
     <img class="zoomable" src="assets/fig12.png" width="706" height="577" loading="lazy"
          alt="Signed over-credit versus manipulation: baselines rise up to +57 percent, the WLS read-out stays at zero."
-         data-caption="Fig. 12. Under source manipulation, the aggregation rules of deployed systems credit up to 57% more carbon than is there; the WLS read-out stays at zero over-credit at every manipulation level.">
-    <figcaption><b>Fig.&nbsp;12.</b> The policy-relevant failure. Under source manipulation, the
-    aggregation rules of deployed systems credit up to 57% more carbon than is there; the WLS
-    read-out stays at zero over-credit at every manipulation level.</figcaption>
+         data-caption="Fig. 5(a). Under source manipulation, aggregation rules modelled on deployed systems credit up to 57% more carbon than is there; the WLS read-out stays near zero over-credit at every manipulation level.">
+    <figcaption><b>Fig.&nbsp;5(a).</b> The policy-relevant failure. Under source manipulation,
+    aggregation rules modelled on deployed systems credit up to 57% more carbon than is there; the
+    WLS read-out stays near zero over-credit at every manipulation level.</figcaption>
   </figure>
   <div class="duo">
     <figure class="plate reveal">
       <img class="zoomable" src="assets/fig4.png" width="700" height="544" loading="lazy"
            alt="Log-log plot: estimation error grows as one over the sensitivity spread as diversity vanishes."
-           data-caption="Fig. 4. As sensor sensitivities collapse to a common value, estimation error grows as 1/spread, exactly the boundary the theorem predicts.">
-      <figcaption><b>Fig.&nbsp;4.</b> The impossibility direction, measured. As sensor sensitivities
+           data-caption="Fig. 2(b). As sensor sensitivities collapse to a common value, estimation error grows as 1/spread, exactly the boundary the theorem predicts.">
+      <figcaption><b>Fig.&nbsp;2(b).</b> The impossibility direction, measured. As sensor sensitivities
       collapse to a common value, estimation error grows as 1/spread, exactly the boundary the
       theorem predicts.</figcaption>
     </figure>
     <figure class="plate reveal">
       <img class="zoomable" src="assets/fig13.png" width="701" height="540" loading="lazy"
            alt="Bias of each aggregator when trained models predict from real perturbed spectra; baselines drift, WLS stays in a narrow band."
-           data-caption="Fig. 13. Eight trained SOC models predict from spectra under a physical wetting perturbation: baselines drift with the perturbation, the mechanism stays within the sensors' own calibration band.">
-      <figcaption><b>Fig.&nbsp;13.</b> Real models, real perturbation. Eight trained SOC models
+           data-caption="Fig. 2(a). Eight trained SOC models predict from spectra under a physical wetting perturbation: baselines drift with the perturbation, the mechanism stays within the sensors' own calibration band.">
+      <figcaption><b>Fig.&nbsp;2(a).</b> Real models, real perturbation. Eight trained SOC models
       predict from spectra under a physical wetting perturbation: baselines drift with the
       perturbation, the mechanism stays within the sensors' own calibration band.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="robustness">
+  <span class="eyebrow reveal">Robustness</span>
+  <h2 class="reveal">Robustness sweeps</h2>
+  <p class="lede reveal">Each sweep relaxes one assumption of the idealised model and runs with
+  the released code. Correlated residuals, which the eight models share because they read one
+  spectrum, sharpen detection rather than weaken it: at fifty percent manipulation, detection
+  power rises from 14% at <var>&rho;</var>&nbsp;=&nbsp;0 to 47% at <var>&rho;</var>&nbsp;=&nbsp;0.9.</p>
+  <figure class="plate reveal">
+    <img class="zoomable" src="assets/fig7.png" width="699" height="538" loading="lazy"
+         alt="As the number of sensors grows from 3 to 20, estimation error falls and detection power rises."
+         data-caption="Fig. 3(a). From three to twenty sensors, the estimation error falls from 82% to 42% and detection power at fifty percent manipulation rises from 10% to 17%. Honest and manipulated errors coincide.">
+    <figcaption><b>Fig.&nbsp;3(a).</b> Scaling. From three to twenty sensors, the estimation error
+    falls from 82% to 42% and detection power at fifty percent manipulation rises from 10% to 17%.
+    Honest and manipulated errors coincide.</figcaption>
+  </figure>
+  <div class="duo">
+    <figure class="plate reveal">
+      <img class="zoomable" src="assets/fig8.png" width="698" height="537" loading="lazy"
+           alt="Estimation error under four noise distributions, flat across manipulation levels."
+           data-caption="Noise shape. Student-t, lognormal and uniform noise of the same scale leave the error flat in the manipulation, between 50% and 57%.">
+      <figcaption><b>Noise shape.</b> Student-t, lognormal and uniform noise of the same scale leave
+      the error flat in the manipulation, between 50% and 57%.</figcaption>
+    </figure>
+    <figure class="plate reveal">
+      <img class="zoomable" src="assets/fig10.png" width="697" height="538" loading="lazy"
+           alt="Estimation error versus calibration error in the assumed noise levels and sensitivities."
+           data-caption="Calibration. A fixed error of up to 50% in each assumed noise level raises the error at fifty percent manipulation from 57% to 63%, a loss of precision rather than a bias. The same error in each sensitivity leaves it between 53% and 57%.">
+      <figcaption><b>Calibration.</b> A fixed error of up to 50% in each assumed noise level
+      <var>&sigma;<sub>i</sub></var> raises the error at fifty percent manipulation from 57% to 63%, a
+      loss of precision rather than a bias. The same error in each sensitivity <var>&alpha;<sub>i</sub></var> leaves it
+      between 53% and 57%.</figcaption>
     </figure>
   </div>
 </section>
@@ -1338,10 +1372,18 @@ dialog.lb p {
 
 <section id="reproduce">
   <span class="eyebrow reveal">Code</span>
-  <h2 class="reveal">Release pending</h2>
-  <p class="lede reveal">The repository remains private while the public release is prepared.
-  Once released, it will include the committed experiment outputs needed to regenerate every
-  simulation figure without the dataset or a GPU, together with the code for all 16 experiments.</p>
+  <h2 class="reveal">Reproduce</h2>
+  <p class="lede reveal">Every simulation figure regenerates from the committed experiment
+  outputs, with no dataset and no GPU. Re-running the experiments needs the LUCAS 2018 topsoil
+  CSV, which its licence does not allow us to redistribute.</p>
+  <div class="code reveal">
+    <button class="copy" type="button" data-copy="repro" aria-label="Copy commands to clipboard">Copy</button>
+<pre id="repro">git clone https://github.com/Rqcker/crps-wls
+cd crps-wls
+pip install -r requirements.txt
+python -m src.plots        <span class="cmt"># figures from the committed CSVs</span>
+python -m src.experiments  <span class="cmt"># all 16 experiments; needs the LUCAS CSV</span></pre>
+  </div>
 </section>
 
 <section id="bibtex">
@@ -1369,7 +1411,8 @@ dialog.lb p {
   <div class="strata" aria-hidden="true"></div>
   <div class="foot-in">
     Funded by the Hitachi-Imperial Centre for Decarbonisation and Natural Climate Solutions.<br>
-    The extended version is on arXiv. Code will be released under the MIT licence.
+    The extended version is on arXiv. Code released under the MIT licence at
+    <a href="https://github.com/Rqcker/crps-wls">github.com/Rqcker/crps-wls</a>.
   </div>
 </footer>
 
@@ -1595,7 +1638,7 @@ dialog.lb p {
 (function () {
   'use strict';
 
-  /* ── measured inputs · paper Table 1 ───────────────────────────────── */
+  /* ── measured inputs · paper Table 2 ───────────────────────────────── */
   var MODELS = [
     { name: 'CNN',                 sigma: 13.22, alpha: 1.000 },
     { name: 'Random forest',       sigma: 13.23, alpha: 0.418 },
