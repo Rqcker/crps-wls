@@ -10,7 +10,7 @@ Imperial College London · Hitachi Europe
 
 [![arXiv](https://img.shields.io/badge/arXiv-2610.35888-b31b1b.svg)](https://arxiv.org/abs/2610.35888)
 [![Project page](https://img.shields.io/badge/Project-page-4C72B0.svg)](https://junhaosong.com/crps-wls/)
-[![Video](https://img.shields.io/badge/Video-3%3A32-c4302b.svg)](https://youtu.be/HT-BhesK4_s)
+[![YouTube](https://img.shields.io/badge/YouTube-Video-FF0000?logo=youtube&logoColor=white)](https://youtu.be/HT-BhesK4_s)
 [![Licence: MIT](https://img.shields.io/badge/Licence-MIT-8a5a2b.svg)](LICENSE)
 
 </div>
